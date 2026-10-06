@@ -3,6 +3,7 @@ import {
   Activity,
   ALargeSmall,
   BookOpen,
+  Building2,
   ClipboardList,
   Database,
   EyeOff,
@@ -10,6 +11,7 @@ import {
   GraduationCap,
   Library,
   LayoutDashboard,
+  Network,
   Menu,
   Plug,
   Scale,
@@ -23,7 +25,7 @@ import {
 import { useState, type ReactNode } from "react";
 import { OriginaWordmark } from "@/components/brand";
 import { UserButton } from "@/lib/auth/gates";
-import { CAMPUSES, type Profile } from "@/lib/origina/types";
+import type { Profile } from "@/lib/origina/types";
 import { cn } from "@/lib/utils";
 
 type Item = {
@@ -31,6 +33,7 @@ type Item = {
   label: string;
   icon: typeof LayoutDashboard;
   roles?: Profile["role"][];
+  platformOnly?: boolean;
 };
 
 const NAV: { heading: string; items: Item[] }[] = [
@@ -52,37 +55,52 @@ const NAV: { heading: string; items: Item[] }[] = [
       { to: "/app/idn", label: "IDN lab", icon: Globe },
       { to: "/app/idna", label: "IDNA 2008", icon: Scale },
       { to: "/app/libraries", label: "Libraries", icon: Library },
-      { to: "/app/corpus", label: "Source libraries", icon: Database },
-      { to: "/app/moodle", label: "Moodle LMS", icon: Plug },
+      { to: "/app/corpus", label: "Source library", icon: Database },
+      { to: "/app/moodle", label: "Moodle & API", icon: Plug },
     ],
   },
   {
-    heading: "College",
+    heading: "Organisation",
     items: [
+      { to: "/app/organisation", label: "Organisation", icon: Building2, roles: ["teacher", "admin"] },
       { to: "/app/analytics", label: "Analytics", icon: Activity, roles: ["teacher", "admin"] },
       { to: "/app/people", label: "People", icon: Users, roles: ["admin"] },
       { to: "/app/audit", label: "Audit trail", icon: Shield, roles: ["teacher", "admin"] },
-      { to: "/app/training", label: "Training", icon: BookOpen },
+      { to: "/app/training", label: "How to", icon: BookOpen },
       { to: "/app/settings", label: "Settings", icon: Settings },
     ],
+  },
+  {
+    heading: "Platform",
+    items: [{ to: "/app/platform", label: "Platform", icon: Network, platformOnly: true }],
   },
 ];
 
 export function AppShell({ profile, children }: { profile: Profile; children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
-  const campus = CAMPUSES.find((c) => c.id === profile.campus);
+  const hasOrg = Boolean(profile.orgId);
 
   const filtered = NAV.map((g) => ({
     ...g,
-    items: g.items.filter((i) => !i.roles || i.roles.includes(profile.role)),
+    items: g.items.filter((i) => {
+      if (i.platformOnly) return profile.isPlatformAdmin;
+      if (!hasOrg) return false;
+      return !i.roles || i.roles.includes(profile.role);
+    }),
   })).filter((g) => g.items.length);
+
+  const orgBadge = profile.orgName ? (
+    <p className="mt-3 truncate rounded-xl bg-paper-2 px-3 py-2 text-xs font-medium text-ink-soft">
+      {profile.orgName}
+    </p>
+  ) : null;
 
   const nav = (
     <nav className="flex flex-1 flex-col gap-6">
       {filtered.map((g) => (
         <div key={g.heading}>
-          <p className="px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+          <p className="px-3 text-[14px] font-semibold uppercase tracking-[0.16em] text-muted">
             {g.heading}
           </p>
           <ul className="mt-2 space-y-0.5">
@@ -100,7 +118,7 @@ export function AppShell({ profile, children }: { profile: Profile; children: Re
                     className={cn(
                       "flex h-11 items-center gap-3 rounded-xl px-3 text-sm transition-colors",
                       active
-                        ? "bg-teal text-teal-fg"
+                        ? "bg-lime text-navy"
                         : "text-ink-soft hover:bg-paper-2 hover:text-ink",
                     )}
                   >
@@ -122,10 +140,13 @@ export function AppShell({ profile, children }: { profile: Profile; children: Re
         <Link to="/" className="px-1">
           <OriginaWordmark />
         </Link>
+        {orgBadge}
         <div className="mt-6 flex-1 overflow-y-auto pr-1">{nav}</div>
         <div className="mt-4 border-t border-line pt-4">
           <p className="px-1 text-xs text-muted">
-            {campus?.place} · {profile.role === "teacher" ? "Academic staff" : profile.role}
+            {[profile.campusName, profile.role === "teacher" ? "Academic staff" : profile.role]
+              .filter(Boolean)
+              .join(" · ")}
           </p>
           <div className="mt-2 px-1">
             <UserButton />
@@ -164,7 +185,8 @@ export function AppShell({ profile, children }: { profile: Profile; children: Re
                   <X className="size-5" />
                 </button>
               </div>
-              {nav}
+              {orgBadge}
+              <div className="mt-4">{nav}</div>
               <div className="mt-4 border-t border-line pt-4">
                 <UserButton />
               </div>
@@ -181,43 +203,28 @@ export function AppShell({ profile, children }: { profile: Profile; children: Re
 
 export function PublicHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-line/70 bg-paper/85 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-white/10 bg-navy/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link to="/">
-          <OriginaWordmark />
+          <OriginaWordmark light />
         </Link>
-        <nav className="hidden items-center gap-6 text-sm text-ink-soft md:flex">
-          <a href="/#detect" className="hover:text-ink">
-            Detection
+        <nav className="hidden items-center gap-6 text-sm text-paper/75 md:flex">
+          <a href="/#detect" className="hover:text-lime">
+            Features
           </a>
-          <Link to="/zero-width" className="hover:text-ink">
-            Zero-width
-          </Link>
-          <Link to="/homoglyphs" className="hover:text-ink">
-            Homoglyphs
-          </Link>
-          <Link to="/idn" className="hover:text-ink">
-            IDN
-          </Link>
-          <Link to="/idna" className="hover:text-ink">
-            IDNA
-          </Link>
-          <Link to="/libraries" className="hover:text-ink">
-            Libraries
-          </Link>
-          <a href="/#moodle" className="hover:text-ink">
-            Moodle
+          <a href="/#scan" className="hover:text-lime">
+            Try it
           </a>
-          <a href="/#roles" className="hover:text-ink">
-            Roles
-          </a>
-          <Link to="/sample-report" className="hover:text-ink">
+          <Link to="/zero-width" className="hover:text-lime">
+            Labs
+          </Link>
+          <Link to="/sample-report" className="hover:text-lime">
             Sample report
           </Link>
         </nav>
         <Link
           to="/login"
-          className="inline-flex h-11 items-center rounded-xl border border-line bg-surface px-4 text-sm font-medium text-ink hover:bg-paper-2"
+          className="inline-flex h-11 items-center rounded-xl bg-lime px-4 text-sm font-semibold text-navy hover:bg-lime-deep"
         >
           Sign in
         </Link>
@@ -228,39 +235,36 @@ export function PublicHeader() {
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-line bg-surface">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 text-sm text-muted sm:flex-row sm:items-end sm:justify-between sm:px-6">
+    <footer className="bg-navy">
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 text-sm text-paper/70 sm:flex-row sm:items-end sm:justify-between sm:px-6">
         <div>
-          <OriginaWordmark />
-          <p className="mt-3 max-w-sm">
-            Academic integrity platform for the Western Cape College of Nursing and the College of
-            Emergency Care. POPIA-aware. Decision support, not a verdict.
-          </p>
+          <OriginaWordmark light />
+          <p className="mt-3">Decision support, not a verdict.</p>
         </div>
         <div className="flex flex-wrap gap-4">
-          <Link to="/privacy" className="hover:text-ink">
+          <Link to="/privacy" className="hover:text-lime">
             Privacy & POPIA
           </Link>
-          <Link to="/zero-width" className="hover:text-ink">
+          <Link to="/zero-width" className="hover:text-lime">
             Zero-width lab
           </Link>
-          <Link to="/homoglyphs" className="hover:text-ink">
+          <Link to="/homoglyphs" className="hover:text-lime">
             Homoglyph lab
           </Link>
-          <Link to="/idn" className="hover:text-ink">
+          <Link to="/idn" className="hover:text-lime">
             IDN lab
           </Link>
-          <Link to="/idna" className="hover:text-ink">
+          <Link to="/idna" className="hover:text-lime">
             IDNA 2008
           </Link>
-          <Link to="/libraries" className="hover:text-ink">
+          <Link to="/libraries" className="hover:text-lime">
             Libraries
           </Link>
-          <Link to="/sample-report" className="hover:text-ink">
+          <Link to="/sample-report" className="hover:text-lime">
             Sample report
           </Link>
-          <Link to="/login" className="hover:text-ink">
-            Staff sign in
+          <Link to="/login" className="hover:text-lime">
+            Sign in
           </Link>
         </div>
       </div>

@@ -4,12 +4,12 @@ import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:scale-[0.98]",
+  "inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime/50 focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:scale-[0.98]",
   {
     variants: {
       variant: {
         primary:
-          "bg-teal text-teal-fg hover:bg-teal-deep shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]",
+          "bg-lime text-navy hover:bg-lime-deep shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]",
         secondary: "bg-ink text-paper hover:bg-ink-soft",
         outline: "border border-line bg-surface text-ink hover:bg-paper-2",
         ghost: "text-ink hover:bg-paper-2",

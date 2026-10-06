@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import {
   DEVIATION_CHARS,
   IDNA_DEMOS,
-  RFC_STACK,
   hostFromText,
   processIdna,
 } from "@/lib/origina/idna";
@@ -36,14 +35,6 @@ export function IdnaExplorer() {
         <Stat label="Deviation chars" value={report.deviations.length} hint="ß  ς  ZWJ  ZWNJ" />
       </section>
 
-      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {RFC_STACK.map((r) => (
-          <article key={r.id} className="rounded-[22px] border border-line bg-surface p-4">
-            <p className="text-xs uppercase tracking-[0.14em] text-muted">{r.title}</p>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">{r.body}</p>
-          </article>
-        ))}
-      </section>
 
       <div className="flex flex-wrap gap-2">
         {IDNA_DEMOS.map((d) => (
@@ -77,13 +68,13 @@ export function IdnaExplorer() {
             spellCheck={false}
           />
           <p className="mt-2 text-xs text-muted">
-            Parsed host: <span className="font-mono text-ink">{host || "—"}</span>
+            Parsed host: <span className="font-mono text-ink">{host || "-"}</span>
           </p>
         </div>
         <article className="rounded-[22px] border border-line bg-surface p-5">
           <h2 className="font-semibold">Processing result</h2>
           <dl className="mt-3 space-y-2 text-sm">
-            <Row k="U-label (2008)" v={report.idna2008.unicode || "—"} />
+            <Row k="U-label (2008)" v={report.idna2008.unicode || "-"} />
             <Row k="A-label (2008)" v={report.idna2008.ascii ?? "rejected"} />
             <Row k="A-label (2003)" v={report.idna2003.ascii ?? "rejected"} />
             <Row
@@ -109,14 +100,12 @@ export function IdnaExplorer() {
 
       {report.diverge && (
         <aside className="rounded-2xl border border-warn/30 bg-warn-soft px-4 py-3 text-sm text-warn">
-          A student citing https://{host} may be pointing at a different DNS name depending on
-          whether the resolver still applies IDNA2003 mapping. Origina records both A-labels.
+          https://{host} resolves to a different domain under IDNA2003 and IDNA2008.
         </aside>
       )}
       {!report.idna2008.ascii && report.idna2003.ascii && (
         <aside className="rounded-2xl border border-risk/30 bg-risk-soft px-4 py-3 text-sm text-risk">
-          IDNA2008 CheckJoiners / STD3 rejected this host. Transitional processing would still have
-          produced {report.idna2003.ascii} — the old hidden-character dodge.
+          IDNA2008 rejects this host. IDNA2003 would accept it as {report.idna2003.ascii}.
         </aside>
       )}
 

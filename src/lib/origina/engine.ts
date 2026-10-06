@@ -437,6 +437,10 @@ export function analyseLocal(input: {
     s.matchedWords = spanCover.get(s.id) ?? 0;
   }
 
+  // Drop sources whose words were all attributed to a closer match.
+  for (let i = sources.length - 1; i >= 0; i--) if (sources[i].matchedWords === 0) sources.splice(i, 1);
+  sources.sort((a, b) => b.overlapPct - a.overlapPct);
+
   const similarity = Math.min(100, Math.round(overlapPct(covered.size, words.length)));
   const citations = extractCitations(input.text);
 

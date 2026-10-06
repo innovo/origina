@@ -14,23 +14,30 @@ export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "Origina" },
       { title: APP_NAME },
       {
         name: "description",
         content:
-          "Origina — plagiarism, similarity and AI-content detection for WCCN and CEC. Moodle-ready, POPIA-aware, decision support for academic staff.",
+          "Origina: plagiarism, similarity and AI-content detection for colleges, universities and schools. Moodle-ready, POPIA-aware, decision support for academic staff.",
       },
-      { name: "theme-color", content: "#1B5F58" },
+      { name: "theme-color", content: "#BED62F" },
+      { property: "og:title", content: "Origina" },
+      { property: "og:image", content: "/og.jpg" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@500;600;700&display=swap",
       },
     ],
   }),

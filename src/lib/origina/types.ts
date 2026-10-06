@@ -1,6 +1,6 @@
 export type Role = "student" | "teacher" | "admin";
 
-export type CampusId = "athlone" | "worcester" | "stikland" | "tygerberg";
+export type CampusId = string;
 
 export type SourceType = "institutional" | "previous" | "web" | "journal" | "textbook" | "self";
 
@@ -10,9 +10,37 @@ export type Profile = {
   userId: string;
   fullName: string;
   role: Role;
-  campus: CampusId;
+  campus: CampusId | null;
+  campusName: string | null;
   studentNumber: string | null;
   createdAt: string;
+  orgId: string | null;
+  orgName: string | null;
+  orgShortName: string | null;
+  isPlatformAdmin: boolean;
+};
+
+export type Campus = {
+  id: string;
+  orgId: string;
+  name: string;
+  detail: string | null;
+};
+
+export type Organization = {
+  id: string;
+  name: string;
+  shortName: string;
+  joinCode: string;
+  emailDomains: string;
+  adminEmails: string;
+  createdAt: string;
+};
+
+export type OrganizationSummary = Organization & {
+  people: number;
+  submissions: number;
+  campuses: number;
 };
 
 export type ObfuscationFlag = {
@@ -105,7 +133,8 @@ export type CourseRow = {
   id: string;
   code: string;
   title: string;
-  campus: CampusId;
+  campus: CampusId | null;
+  campusName: string | null;
   ownerUserId: string;
   assignmentCount: number;
 };
@@ -145,39 +174,7 @@ export type DashboardData = {
 };
 
 export const DISCLAIMER =
-  "Origina highlights possible similarity and AI-assisted writing as a decision-support aid. Indicators are not proof of misconduct. The academic responsible for assessing the submission makes the final determination.";
-
-export const CAMPUSES: {
-  id: CampusId;
-  name: string;
-  place: string;
-  region: string;
-}[] = [
-  {
-    id: "athlone",
-    name: "Cape Town Metropole",
-    place: "Athlone",
-    region: "WCCN",
-  },
-  {
-    id: "worcester",
-    name: "Boland-Overberg",
-    place: "Worcester",
-    region: "WCCN",
-  },
-  {
-    id: "stikland",
-    name: "Central Administration",
-    place: "Stikland",
-    region: "WCCN",
-  },
-  {
-    id: "tygerberg",
-    name: "College of Emergency Care",
-    place: "Tygerberg",
-    region: "CEC",
-  },
-];
+  "Indicators are not proof of misconduct. Staff make the final decision.";
 
 export const ROLE_META: Record<Role, { label: string; hint: string }> = {
   student: {
@@ -190,6 +187,6 @@ export const ROLE_META: Record<Role, { label: string; hint: string }> = {
   },
   admin: {
     label: "Administrator",
-    hint: "Configure the service, people, Moodle, analytics and SLA.",
+    hint: "Configure your organisation, campuses, people, Moodle and analytics.",
   },
 };

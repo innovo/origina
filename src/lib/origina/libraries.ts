@@ -49,6 +49,6 @@ export const LIBRARY_DEMOS: { id: string; label: string; hint: string; build: ()
     id: "apple",
     label: "Apple lookalike",
     hint: "Palochka ӏ",
-    build: () => "The classic homograph is аррӏе.com — Cyrillic а, р, ӏ, е.",
+    build: () => "The classic homograph is аррӏе.com, Cyrillic а, р, ӏ, е.",
   },
 ];

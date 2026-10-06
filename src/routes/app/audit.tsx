@@ -10,14 +10,7 @@ function Audit() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-          Investigations
-        </p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">Audit trail</h1>
-        <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-          Checks performed, reports opened, and academic judgements — enough to support a
-          disciplinary file. Administrators see the whole college; staff see their own actions.
-        </p>
+        <h1 className="font-display text-3xl font-medium tracking-tight">Audit trail</h1>
       </header>
       <ul className="divide-y divide-line rounded-[22px] border border-line bg-surface">
         {(q.data ?? []).map((row) => (

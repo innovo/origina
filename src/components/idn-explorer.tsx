@@ -38,12 +38,12 @@ function FindingCard({ f }: { f: IdnFinding }) {
         </div>
         <div>
           <dt className="text-xs uppercase tracking-wider text-muted">Scripts</dt>
-          <dd className="text-ink-soft">{f.scripts.join(" + ") || "—"}</dd>
+          <dd className="text-ink-soft">{f.scripts.join(" + ") || "-"}</dd>
         </div>
       </dl>
       {f.spoofOf && (
         <p className="mt-3 text-sm text-risk">
-          Folds onto <span className="font-medium">{f.spoofOf}</span> — a watched academic or brand
+          Folds onto <span className="font-medium">{f.spoofOf}</span>, a watched academic or brand
           host.
         </p>
       )}
@@ -151,20 +151,9 @@ export function IdnExplorer() {
         </div>
       </div>
 
-      {result.risk > 0 && (
-        <aside className="rounded-2xl border border-risk/30 bg-risk-soft px-4 py-3 text-sm text-risk">
-          An IDN homograph is not a broken citation — it is a domain that looks like a trusted one
-          and is not. Origina flags it on the citation agent and the obfuscation agent. Staff still
-          decide.
-        </aside>
-      )}
 
       <article className="rounded-[22px] border border-line bg-surface p-5">
         <h2 className="font-semibold">Watched hosts</h2>
-        <p className="mt-2 text-sm text-ink-soft">
-          The skeleton is compared to this register. A genuine https://www.who.int is clean. A host
-          that only looks like it is not.
-        </p>
         <ul className="mt-4 columns-2 gap-x-6 text-sm text-ink-soft sm:columns-3">
           {TRUSTED_HOSTS.map((h) => (
             <li key={h} className="break-inside-avoid font-mono text-xs leading-6">

@@ -111,7 +111,7 @@ const MANUAL: HomoglyphMeta[] = [
     "compat",
     "IPA/script form that is not the ASCII letter a checker expects.",
   ),
-  entry("ɑ", "a", "Latin small alpha", "compat", "Latin alpha — looks like a, is not U+0061."),
+  entry("ɑ", "a", "Latin small alpha", "compat", "Latin alpha, looks like a, is not U+0061."),
   entry("ℓ", "l", "Script small l", "compat", "Letterlike symbol used as a stand-in for l."),
 ];
 
@@ -282,7 +282,7 @@ export function inspectHomoglyphs(text: string): {
         hex: hexOf(ch.charCodeAt(0)),
         name: ch === "0" ? "Digit zero as letter o" : "Digit one as letter l",
         script: "digit",
-        why: "A digit sitting inside a word is almost never a measurement — it is a substitution.",
+        why: "A digit sitting inside a word is almost never a measurement, it is a substitution.",
         method: "digit-context",
         before: snippet(text, i - 12, i),
         after: snippet(text, i + 1, i + 13),

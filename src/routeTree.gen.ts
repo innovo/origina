@@ -31,14 +31,18 @@ import { Route as AppIdnaRouteImport } from './routes/app/idna'
 import { Route as AppLibrariesRouteImport } from './routes/app/libraries'
 import { Route as AppMoodleRouteImport } from './routes/app/moodle'
 import { Route as AppOnboardingRouteImport } from './routes/app/onboarding'
+import { Route as AppOrganisationRouteImport } from './routes/app/organisation'
 import { Route as AppPeopleRouteImport } from './routes/app/people'
+import { Route as AppPlatformRouteImport } from './routes/app/platform'
 import { Route as AppSettingsRouteImport } from './routes/app/settings'
 import { Route as AppSubmissionsRouteImport } from './routes/app/submissions'
 import { Route as AppSubmitRouteImport } from './routes/app/submit'
 import { Route as AppTrainingRouteImport } from './routes/app/training'
 import { Route as AppZeroWidthRouteImport } from './routes/app/zero-width'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiV1CheckRouteImport } from './routes/api/v1/check'
 import { Route as AppReportsReportIdRouteImport } from './routes/app/reports.$reportId'
+import { Route as ApiV1ReportsReportIdRouteImport } from './routes/api/v1/reports.$reportId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -150,9 +154,19 @@ const AppOnboardingRoute = AppOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppOrganisationRoute = AppOrganisationRouteImport.update({
+  id: '/organisation',
+  path: '/organisation',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppPeopleRoute = AppPeopleRouteImport.update({
   id: '/people',
   path: '/people',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPlatformRoute = AppPlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
@@ -185,10 +199,20 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1CheckRoute = ApiV1CheckRouteImport.update({
+  id: '/api/v1/check',
+  path: '/api/v1/check',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppReportsReportIdRoute = AppReportsReportIdRouteImport.update({
   id: '/reports/$reportId',
   path: '/reports/$reportId',
   getParentRoute: () => AppRouteRoute,
+} as any)
+const ApiV1ReportsReportIdRoute = ApiV1ReportsReportIdRouteImport.update({
+  id: '/api/v1/reports/$reportId',
+  path: '/api/v1/reports/$reportId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -213,7 +237,9 @@ export interface FileRoutesByFullPath {
   '/app/libraries': typeof AppLibrariesRoute
   '/app/moodle': typeof AppMoodleRoute
   '/app/onboarding': typeof AppOnboardingRoute
+  '/app/organisation': typeof AppOrganisationRoute
   '/app/people': typeof AppPeopleRoute
+  '/app/platform': typeof AppPlatformRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/submissions': typeof AppSubmissionsRoute
   '/app/submit': typeof AppSubmitRoute
@@ -221,7 +247,9 @@ export interface FileRoutesByFullPath {
   '/app/zero-width': typeof AppZeroWidthRoute
   '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/v1/check': typeof ApiV1CheckRoute
   '/app/reports/$reportId': typeof AppReportsReportIdRoute
+  '/api/v1/reports/$reportId': typeof ApiV1ReportsReportIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -244,7 +272,9 @@ export interface FileRoutesByTo {
   '/app/libraries': typeof AppLibrariesRoute
   '/app/moodle': typeof AppMoodleRoute
   '/app/onboarding': typeof AppOnboardingRoute
+  '/app/organisation': typeof AppOrganisationRoute
   '/app/people': typeof AppPeopleRoute
+  '/app/platform': typeof AppPlatformRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/submissions': typeof AppSubmissionsRoute
   '/app/submit': typeof AppSubmitRoute
@@ -252,7 +282,9 @@ export interface FileRoutesByTo {
   '/app/zero-width': typeof AppZeroWidthRoute
   '/app': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/v1/check': typeof ApiV1CheckRoute
   '/app/reports/$reportId': typeof AppReportsReportIdRoute
+  '/api/v1/reports/$reportId': typeof ApiV1ReportsReportIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -277,7 +309,9 @@ export interface FileRoutesById {
   '/app/libraries': typeof AppLibrariesRoute
   '/app/moodle': typeof AppMoodleRoute
   '/app/onboarding': typeof AppOnboardingRoute
+  '/app/organisation': typeof AppOrganisationRoute
   '/app/people': typeof AppPeopleRoute
+  '/app/platform': typeof AppPlatformRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/submissions': typeof AppSubmissionsRoute
   '/app/submit': typeof AppSubmitRoute
@@ -285,7 +319,9 @@ export interface FileRoutesById {
   '/app/zero-width': typeof AppZeroWidthRoute
   '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/v1/check': typeof ApiV1CheckRoute
   '/app/reports/$reportId': typeof AppReportsReportIdRoute
+  '/api/v1/reports/$reportId': typeof ApiV1ReportsReportIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -311,7 +347,9 @@ export interface FileRouteTypes {
     | '/app/libraries'
     | '/app/moodle'
     | '/app/onboarding'
+    | '/app/organisation'
     | '/app/people'
+    | '/app/platform'
     | '/app/settings'
     | '/app/submissions'
     | '/app/submit'
@@ -319,7 +357,9 @@ export interface FileRouteTypes {
     | '/app/zero-width'
     | '/app/'
     | '/api/auth/$'
+    | '/api/v1/check'
     | '/app/reports/$reportId'
+    | '/api/v1/reports/$reportId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -342,7 +382,9 @@ export interface FileRouteTypes {
     | '/app/libraries'
     | '/app/moodle'
     | '/app/onboarding'
+    | '/app/organisation'
     | '/app/people'
+    | '/app/platform'
     | '/app/settings'
     | '/app/submissions'
     | '/app/submit'
@@ -350,7 +392,9 @@ export interface FileRouteTypes {
     | '/app/zero-width'
     | '/app'
     | '/api/auth/$'
+    | '/api/v1/check'
     | '/app/reports/$reportId'
+    | '/api/v1/reports/$reportId'
   id:
     | '__root__'
     | '/'
@@ -374,7 +418,9 @@ export interface FileRouteTypes {
     | '/app/libraries'
     | '/app/moodle'
     | '/app/onboarding'
+    | '/app/organisation'
     | '/app/people'
+    | '/app/platform'
     | '/app/settings'
     | '/app/submissions'
     | '/app/submit'
@@ -382,7 +428,9 @@ export interface FileRouteTypes {
     | '/app/zero-width'
     | '/app/'
     | '/api/auth/$'
+    | '/api/v1/check'
     | '/app/reports/$reportId'
+    | '/api/v1/reports/$reportId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -397,6 +445,8 @@ export interface RootRouteChildren {
   SampleReportRoute: typeof SampleReportRoute
   ZeroWidthRoute: typeof ZeroWidthRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiV1CheckRoute: typeof ApiV1CheckRoute
+  ApiV1ReportsReportIdRoute: typeof ApiV1ReportsReportIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -555,11 +605,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOnboardingRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/organisation': {
+      id: '/app/organisation'
+      path: '/organisation'
+      fullPath: '/app/organisation'
+      preLoaderRoute: typeof AppOrganisationRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/people': {
       id: '/app/people'
       path: '/people'
       fullPath: '/app/people'
       preLoaderRoute: typeof AppPeopleRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/platform': {
+      id: '/app/platform'
+      path: '/platform'
+      fullPath: '/app/platform'
+      preLoaderRoute: typeof AppPlatformRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/settings': {
@@ -604,12 +668,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/check': {
+      id: '/api/v1/check'
+      path: '/api/v1/check'
+      fullPath: '/api/v1/check'
+      preLoaderRoute: typeof ApiV1CheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/reports/$reportId': {
       id: '/app/reports/$reportId'
       path: '/reports/$reportId'
       fullPath: '/app/reports/$reportId'
       preLoaderRoute: typeof AppReportsReportIdRouteImport
       parentRoute: typeof AppRouteRoute
+    }
+    '/api/v1/reports/$reportId': {
+      id: '/api/v1/reports/$reportId'
+      path: '/api/v1/reports/$reportId'
+      fullPath: '/api/v1/reports/$reportId'
+      preLoaderRoute: typeof ApiV1ReportsReportIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -626,7 +704,9 @@ interface AppRouteRouteChildren {
   AppLibrariesRoute: typeof AppLibrariesRoute
   AppMoodleRoute: typeof AppMoodleRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
+  AppOrganisationRoute: typeof AppOrganisationRoute
   AppPeopleRoute: typeof AppPeopleRoute
+  AppPlatformRoute: typeof AppPlatformRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppSubmissionsRoute: typeof AppSubmissionsRoute
   AppSubmitRoute: typeof AppSubmitRoute
@@ -648,7 +728,9 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppLibrariesRoute: AppLibrariesRoute,
   AppMoodleRoute: AppMoodleRoute,
   AppOnboardingRoute: AppOnboardingRoute,
+  AppOrganisationRoute: AppOrganisationRoute,
   AppPeopleRoute: AppPeopleRoute,
+  AppPlatformRoute: AppPlatformRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppSubmissionsRoute: AppSubmissionsRoute,
   AppSubmitRoute: AppSubmitRoute,
@@ -674,6 +756,8 @@ const rootRouteChildren: RootRouteChildren = {
   SampleReportRoute: SampleReportRoute,
   ZeroWidthRoute: ZeroWidthRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiV1CheckRoute: ApiV1CheckRoute,
+  ApiV1ReportsReportIdRoute: ApiV1ReportsReportIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

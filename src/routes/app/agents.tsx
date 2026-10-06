@@ -6,72 +6,58 @@ export const Route = createFileRoute("/app/agents")({ component: Agents });
 const ITEMS = [
   {
     icon: ScanSearch,
-    name: "Similarity agent",
-    method: "Direct, partial and meaning-based matching",
-    body: "Compares the script with previously submitted work, the institutional repository, online sources and named external databases. Covers self-plagiarism and text that has been translated or reworked to hide a source.",
+    name: "Similarity",
+    body: "Matches against your source library, earlier submissions and the student's own past work.",
   },
   {
     icon: Fingerprint,
-    name: "Obfuscation agent",
-    method: "Deterministic character forensics",
-    body: "Zero-width characters, homoglyph and character substitution, hidden text and font manipulation, bidi overrides, control characters, hidden metadata and non-printing marks. The cleaned text is what similarity actually reads.",
+    name: "Hidden tricks",
+    body: "Finds invisible characters, lookalike letters and hidden text, then removes them before matching.",
   },
   {
     icon: Type,
-    name: "Authorship agent",
-    method: "AI-generated or AI-assisted writing",
-    body: "Screens for generated, paraphrased or reworked text. The indicator is reported separately from similarity so the two are never conflated, and it is a decision-support aid — not proof of misconduct.",
+    name: "AI indicator",
+    body: "Estimates AI-written text. Shown separately from similarity and never proof on its own.",
   },
   {
     icon: Languages,
-    name: "Citation agent",
-    method: "References that cannot be right",
-    body: "Parses in-text citations, flags impossible years, placeholders, lookalike domains (IDN homographs) and, when the authorship model is available, references that appear fabricated.",
+    name: "Citations",
+    body: "Flags impossible years, placeholders, lookalike domains and invented references.",
   },
 ];
+
+const LABS = [
+  ["/app/zero-width", "Zero-width"],
+  ["/app/homoglyphs", "Homoglyphs"],
+  ["/app/idn", "IDN"],
+  ["/app/idna", "IDNA"],
+  ["/app/libraries", "Libraries"],
+] as const;
 
 function Agents() {
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-          Detection methodology
-        </p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">
-          Four agents, one report
-        </h1>
-        <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-          Each submission is analysed with a combination of methods so copied, similar and concealed
-          content can be shown clearly. Academic staff still decide.
-        </p>
+        <h1 className="font-display text-3xl font-medium tracking-tight">Detection agents</h1>
       </header>
       <div className="grid gap-4 lg:grid-cols-2">
         {ITEMS.map((a) => (
           <article key={a.name} className="rounded-[22px] border border-line bg-surface p-5">
-            <a.icon className="size-5 text-teal" />
+            <a.icon className="size-5 text-lime-ink" />
             <h2 className="mt-3 font-semibold">{a.name}</h2>
-            <p className="mt-1 text-xs uppercase tracking-wider text-muted">{a.method}</p>
-            <p className="mt-3 text-sm leading-relaxed text-ink-soft">{a.body}</p>
-            {a.name === "Obfuscation agent" && (
-              <div className="mt-4 flex flex-wrap gap-4">
-                <Link to="/zero-width" className="text-sm font-medium text-teal">
-                  Zero-width lab →
-                </Link>
-                <Link to="/homoglyphs" className="text-sm font-medium text-teal">
-                  Homoglyph lab →
-                </Link>
-                <Link to="/idn" className="text-sm font-medium text-teal">
-                  IDN lab →
-                </Link>
-                <Link to="/idna" className="text-sm font-medium text-teal">
-                  IDNA 2008 →
-                </Link>
-                <Link to="/libraries" className="text-sm font-medium text-teal">
-                  Library survey →
-                </Link>
-              </div>
-            )}
+            <p className="mt-2 text-sm text-ink-soft">{a.body}</p>
           </article>
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {LABS.map(([to, label]) => (
+          <Link
+            key={to}
+            to={to}
+            className="rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink-soft hover:border-lime-deep"
+          >
+            {label} lab
+          </Link>
         ))}
       </div>
     </div>

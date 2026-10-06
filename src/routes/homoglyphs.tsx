@@ -9,28 +9,29 @@ function HomoglyphsPage() {
     <div className="min-h-screen bg-paper text-ink">
       <PublicHeader />
       <article className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal">
-          Obfuscation agent · Spec 2.1.4
-        </p>
-        <h1 className="font-display mt-2 max-w-3xl text-4xl font-medium tracking-tight sm:text-5xl">
-          Homoglyphs, folded back to Latin.
+        <h1 className="font-display max-w-3xl text-4xl font-medium tracking-tight sm:text-5xl">
+          Lookalike letters, caught.
         </h1>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-soft">
-          Cyrillic а, Greek ο and a fullwidth ａ all look like the Latin letter a. A copied
-          paragraph survives a casual read and breaks a checker that matches bytes. Origina folds
-          each lookalike to a Latin skeleton, then runs similarity.
-        </p>
-        <p className="mt-3 text-sm text-muted">
-          No sign-in required.{" "}
-          <Link to="/zero-width" className="text-teal hover:underline">
-            Zero-width lab
-          </Link>
-          {" · "}
-          <Link to="/app/submit" className="text-teal hover:underline">
-            Run a full report
-          </Link>
-        </p>
-        <div className="mt-10">
+        <p className="mt-3 max-w-2xl text-ink-soft">Cyrillic and Greek letters disguised as Latin are folded back before matching.</p>
+        <nav className="mt-6 flex flex-wrap gap-2 text-sm">
+          {[
+            ["/zero-width", "Zero-width"],
+            ["/homoglyphs", "Homoglyphs"],
+            ["/idn", "IDN"],
+            ["/idna", "IDNA"],
+            ["/libraries", "Libraries"],
+          ].map(([to, label]) => (
+            <Link
+              key={to}
+              to={to}
+              className="rounded-full border border-line bg-surface px-3 py-1.5 text-ink-soft hover:border-lime-deep"
+              activeProps={{ className: "!bg-ink !text-paper !border-ink" }}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <div className="mt-8">
           <HomoglyphExplorer />
         </div>
       </article>

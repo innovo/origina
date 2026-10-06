@@ -83,9 +83,7 @@ export function LibrariesExplorer() {
 
       {asciiTraps > 0 && origina.hitCount === 0 && (
         <aside className="rounded-2xl border border-warn/30 bg-warn-soft px-4 py-3 text-sm text-warn">
-          UTS39 raw is rewriting honest English (usually m → rn). Origina leaves the sentence alone.
-          Unicode designed the skeleton for identifiers — usernames and domain labels — not for a
-          nursing essay.
+          Raw UTS39 changes normal English (m → rn). Origina leaves it alone.
         </aside>
       )}
 

@@ -11,8 +11,7 @@ function Sample() {
       <PublicHeader />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <p className="mb-6 rounded-2xl border border-line bg-surface px-4 py-3 text-sm text-ink-soft">
-          This is a public sample for the site demonstration. Sign in to run a live check, including
-          the authorship agent and the audit trail.
+          Sample report.
         </p>
         <ReportView
           title="Essay: the primary survey"
@@ -21,7 +20,7 @@ function Sample() {
           findings={SAMPLE_FINDINGS}
           createdAt={new Date().toISOString()}
           authorName="A. Nkosi"
-          campus="tygerberg"
+          campusName="Main campus"
           backTo="/"
         />
       </div>

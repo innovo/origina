@@ -54,7 +54,7 @@ function Login() {
           Sign in to Origina
         </h1>
         <p className="mt-2 text-sm text-muted">
-          Staff and students of WCCN and CEC. Sign in with your email address.
+          New? Create an account, then enter your join code.
         </p>
 
         {authEnabled ? (

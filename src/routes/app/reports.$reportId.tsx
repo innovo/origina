@@ -28,11 +28,13 @@ function ReportPage() {
       findings={r.findings}
       createdAt={r.createdAt}
       authorName={r.authorName}
-      campus={r.campus}
+      campusName={r.campusName}
       canJudge={r.canJudge}
+      judgements={r.judgements}
       backTo="/app/submissions"
       onJudge={async (decision, note) => {
         await recordJudgement({ data: { reportId: r.id, decision, note } });
+        await q.refetch();
       }}
     />
   );

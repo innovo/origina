@@ -21,17 +21,28 @@ function AppLayout() {
   if (profileQuery.isPending) return <PageSkeleton />;
 
   const onboarding = pathname === "/app/onboarding";
-  if (!profileQuery.data && !onboarding) {
+  const platformPage = pathname === "/app/platform";
+  const profile = profileQuery.data;
+  // A profile without an organisation still has to join (or, for Innovo platform
+  // admins, open) one before the tenant pages make sense.
+  const needsOrg = !profile || !profile.orgId;
+  if (needsOrg && profile?.isPlatformAdmin && !platformPage) {
+    return <Navigate to="/app/platform" />;
+  }
+  if (needsOrg && !profile?.isPlatformAdmin && !onboarding) {
     return <Navigate to="/app/onboarding" />;
   }
-  if (profileQuery.data && onboarding) {
+  if (!needsOrg && onboarding) {
     return <Navigate to="/app" />;
   }
-  if (!profileQuery.data) {
+  if (!profile) {
+    return <Outlet />;
+  }
+  if (needsOrg && onboarding) {
     return <Outlet />;
   }
   return (
-    <AppShell profile={profileQuery.data}>
+    <AppShell profile={profile}>
       <Outlet />
     </AppShell>
   );

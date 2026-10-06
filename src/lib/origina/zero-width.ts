@@ -89,7 +89,7 @@ export const INVISIBLES: InvisibleMeta[] = [
     name: "Invisible Plus",
     short: "IPLUS",
     category: "zero-width",
-    why: "Same family as Invisible Times — not used in running academic English.",
+    why: "Same family as Invisible Times, not used in running academic English.",
   },
   {
     code: 0x206a,
@@ -173,7 +173,7 @@ export const INVISIBLES: InvisibleMeta[] = [
     name: "Right-to-Left Embedding",
     short: "RLE",
     category: "bidi",
-    why: "Opens an RTL embed — the start of many ‘hidden text’ tricks.",
+    why: "Opens an RTL embed, the start of many ‘hidden text’ tricks.",
   },
   {
     code: 0x202c,
@@ -208,7 +208,7 @@ export const INVISIBLES: InvisibleMeta[] = [
     name: "Right-to-Left Isolate",
     short: "RLI",
     category: "bidi",
-    why: "RTL isolate — conceals direction changes from a casual read.",
+    why: "RTL isolate, conceals direction changes from a casual read.",
   },
   {
     code: 0x2068,

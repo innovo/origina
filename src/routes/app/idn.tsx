@@ -7,15 +7,8 @@ function AppIdn() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-          Citation + obfuscation · IDN homograph
-        </p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">IDN lab</h1>
-        <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-          Lookalike hosts in references. Mixed-script labels, punycode, and skeleton matches against
-          WHO, PubMed, Cochrane and the rest of the watched register.
-        </p>
-        <Link to="/idn" className="mt-2 inline-block text-sm text-teal">
+        <h1 className="font-display text-3xl font-medium tracking-tight">IDN lab</h1>
+        <Link to="/idn" className="mt-2 inline-block text-sm text-lime-ink">
           Open the public version
         </Link>
       </header>

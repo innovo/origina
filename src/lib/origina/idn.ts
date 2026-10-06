@@ -21,7 +21,7 @@ export type IdnFinding = {
   idna: IdnaReport | null;
 };
 
-/** Registrable hosts a WCCN/CEC script is expected to cite. */
+/** Registrable hosts an academic script is expected to cite. */
 export const TRUSTED_HOSTS = [
   "pubmed.ncbi.nlm.nih.gov",
   "ncbi.nlm.nih.gov",
@@ -167,7 +167,7 @@ export function inspectHost(rawUrl: string): IdnFinding | null {
     }
     severity = "risk";
   } else if (hasPunycode && !actuallyTrusted) {
-    reasons.push(`Punycode (ACE) label present — the wire form is ${punycodeHost}.`);
+    reasons.push(`Punycode (ACE) label present, the wire form is ${punycodeHost}.`);
     if (severity === "ok") severity = "warn";
   } else if (scripts.some((s) => s !== "latin") && !actuallyTrusted) {
     reasons.push(`Non-Latin characters in the host (${scripts.join(", ")}).`);
@@ -241,7 +241,7 @@ export const IDN_DEMOS: { id: string; label: string; hint: string; build: () => 
     label: "WHO with Greek omicron",
     hint: "whο.int",
     build: () =>
-      `Guidance was taken from the World Health Organization at https://www.whο.int/publications — the omicron is Greek U+03BF, not Latin o.`,
+      `Guidance was taken from the World Health Organization at https://www.whο.int/publications, the omicron is Greek U+03BF, not Latin o.`,
   },
   {
     id: "pubmed-i",
@@ -269,6 +269,6 @@ export const IDN_DEMOS: { id: string; label: string; hint: string; build: () => 
     label: "Zero-width in the host",
     hint: "doi.org + ZWSP",
     build: () =>
-      `A DOI that is not a DOI: https://doi.\u200Borg/10.1000/xyz — a zero-width space sits in the host.`,
+      `A DOI that is not a DOI: https://doi.\u200Borg/10.1000/xyz, a zero-width space sits in the host.`,
   },
 ];

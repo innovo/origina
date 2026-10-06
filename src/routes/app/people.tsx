@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listPeople, setPersonRole } from "@/lib/origina/actions";
-import { CAMPUSES, ROLE_META, type Role } from "@/lib/origina/types";
+import { ROLE_META, type Role } from "@/lib/origina/types";
 import { formatDate } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/people")({ component: People });
@@ -17,10 +17,7 @@ function People() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-          Administrator
-        </p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">People</h1>
+        <h1 className="font-display text-3xl font-medium tracking-tight">People</h1>
       </header>
       {q.error && (
         <p className="text-sm text-risk">
@@ -28,10 +25,11 @@ function People() {
         </p>
       )}
       <div className="overflow-x-auto rounded-[22px] border border-line bg-surface">
-        <table className="w-full min-w-[640px] text-left text-sm">
+        <table className="w-full min-w-[760px] text-left text-sm">
           <thead className="text-xs uppercase tracking-wider text-muted">
             <tr className="border-b border-line">
               <th className="px-4 py-3 font-medium">Name</th>
+              <th className="px-4 py-3 font-medium">Email</th>
               <th className="px-4 py-3 font-medium">Campus</th>
               <th className="px-4 py-3 font-medium">Role</th>
               <th className="px-4 py-3 font-medium">Joined</th>
@@ -46,9 +44,8 @@ function People() {
                     <span className="ml-2 text-xs text-muted">{p.student_number}</span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-ink-soft">
-                  {CAMPUSES.find((c) => c.id === p.campus)?.place}
-                </td>
+                <td className="px-4 py-3 text-ink-soft">{p.email}</td>
+                <td className="px-4 py-3 text-ink-soft">{p.campus_name ?? "-"}</td>
                 <td className="px-4 py-3">
                   <select
                     className="h-10 rounded-lg border border-line bg-surface-2 px-2 text-sm"

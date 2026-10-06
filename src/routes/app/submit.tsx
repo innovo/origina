@@ -78,12 +78,7 @@ function Submit() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">New check</p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">Submit writing</h1>
-        <p className="mt-2 text-sm text-ink-soft">
-          Accepts pasted text and .docx, .pdf, .pptx, .html, .txt. Bulk upload concatenates files
-          into one check, or drop them one at a time for separate reports.
-        </p>
+        <h1 className="font-display text-3xl font-medium tracking-tight">Submit writing</h1>
       </header>
 
       <form onSubmit={onSubmit} className="space-y-5">
@@ -108,16 +103,16 @@ function Submit() {
           </select>
         </div>
         <label className="flex cursor-pointer flex-col items-center justify-center rounded-[22px] border border-dashed border-line-strong bg-surface px-4 py-10 text-center">
-          <FileUp className="size-6 text-teal" />
+          <FileUp className="size-6 text-lime-ink" />
           <span className="mt-2 text-sm font-medium">Drop files or browse</span>
           <span className="mt-1 text-xs text-muted">
-            .doc .docx .pdf .ppt .pptx .html · automatic text extraction
+            .docx .pdf .pptx .html .txt
           </span>
           <input
             type="file"
             className="sr-only"
             multiple
-            accept=".txt,.md,.html,.htm,.docx,.pdf,.pptx,.ppt,.doc"
+            accept=".txt,.md,.html,.htm,.docx,.pdf,.pptx"
             onChange={(e) => void onFiles(e.target.files)}
           />
         </label>
@@ -150,7 +145,7 @@ function Submit() {
         {error && <p className="text-sm text-risk">{error}</p>}
         {stage != null ? (
           <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-sm">
-            <Loader2 className="size-4 animate-spin text-teal" />
+            <Loader2 className="size-4 animate-spin text-lime-ink" />
             {STAGES[stage]}
           </div>
         ) : (

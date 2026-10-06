@@ -4,7 +4,7 @@ import { auth, authConfigured } from "./server";
 /**
  * Server-side session resolution (server-only). The session cookie is
  * same-origin, so we resolve the user straight from the request cookies.
- * Never trust a client-supplied user id — only the result of this check.
+ * Never trust a client-supplied user id, only the result of this check.
  */
 
 const databaseConfigured = Boolean(process.env.DATABASE_URL?.trim());
@@ -37,7 +37,7 @@ export async function requireUserId(): Promise<string> {
   if (!authConfigured) {
     if (databaseConfigured) {
       throw new Error(
-        "Auth is disabled (VITE_AUTH_ENABLED=false) but DATABASE_URL is set — refusing to use a shared dev user.",
+        "Auth is disabled (VITE_AUTH_ENABLED=false) but DATABASE_URL is set, refusing to use a shared dev user.",
       );
     }
     return DEV_USER_ID;

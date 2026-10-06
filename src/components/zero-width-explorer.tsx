@@ -24,7 +24,7 @@ const CAT_TONE: Record<InvisibleCategory, string> = {
   "zero-width": "bg-risk-soft text-risk",
   bidi: "bg-ai-soft text-ai",
   format: "bg-warn-soft text-warn",
-  filler: "bg-teal-soft text-teal-deep",
+  filler: "bg-lime-soft text-navy",
 };
 
 function VisualRun({ text, hits }: { text: string; hits: InvisibleHit[] }) {
@@ -56,14 +56,14 @@ function VisualRun({ text, hits }: { text: string; hits: InvisibleHit[] }) {
   const clipped = text.length > limit;
 
   return (
-    <div className="paper-rule max-h-[28rem] overflow-auto rounded-[22px] border border-line bg-surface-2 p-5 text-[15px] leading-7 text-ink">
+    <div className="paper-rule max-h-[28rem] overflow-auto rounded-[22px] border border-line bg-surface-2 p-5 text-[17px] leading-7 text-ink">
       {nodes.map((n) =>
         n.kind === "mark" && n.hit ? (
           <span
             key={n.key}
             title={`${n.hit.hex} ${n.hit.name} · index ${n.hit.index}`}
             className={cn(
-              "mx-0.5 inline-flex translate-y-[-1px] items-center rounded-sm px-1 font-mono text-[10px] font-semibold uppercase leading-5 tracking-wide",
+              "mx-0.5 inline-flex translate-y-[-1px] items-center rounded-sm px-1 font-mono text-[14px] font-semibold uppercase leading-5 tracking-wide",
               CAT_TONE[n.hit.category],
             )}
           >
@@ -111,7 +111,7 @@ export function ZeroWidthExplorer() {
         <Stat
           label="Similarity once stripped"
           value={`${naiveFindings.similarity}%`}
-          hint={naiveFindings.sources[0]?.title ?? "Against the college library"}
+          hint={naiveFindings.sources[0]?.title ?? "Against the source library"}
         />
       </section>
 
@@ -153,13 +153,9 @@ export function ZeroWidthExplorer() {
               setActive("custom");
               setText(e.target.value);
             }}
-            className="min-h-56 font-mono text-[13px]"
+            className="min-h-56 font-mono text-[15px]"
             spellCheck={false}
           />
-          <p className="mt-2 text-xs text-muted">
-            Marks are invisible in this box — that is the point. The pane on the right makes them
-            visible.
-          </p>
         </div>
         <div>
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
@@ -172,7 +168,7 @@ export function ZeroWidthExplorer() {
                   onClick={() => setFilter(f.id)}
                   className={cn(
                     "h-8 rounded-full px-2.5 text-xs",
-                    filter === f.id ? "bg-teal text-teal-fg" : "bg-paper-2 text-muted",
+                    filter === f.id ? "bg-lime text-navy" : "bg-paper-2 text-muted",
                   )}
                 >
                   {f.label}
@@ -186,9 +182,8 @@ export function ZeroWidthExplorer() {
 
       {broken && (
         <aside className="rounded-2xl border border-risk/30 bg-risk-soft px-4 py-3 text-sm text-risk">
-          A naive checker that tokenises without stripping would see {naive.length} fragments
-          instead of {cleanedWords.length} words. Origina strips first, then matches — so the copied
-          protocol still surfaces.
+          Hidden marks split {cleanedWords.length} words into {naive.length} fragments. Origina
+          removes them first.
         </aside>
       )}
 
@@ -216,7 +211,7 @@ export function ZeroWidthExplorer() {
                   <td className="px-4 py-3">
                     <span
                       className={cn(
-                        "rounded-sm px-1.5 py-0.5 font-mono text-[11px]",
+                        "rounded-sm px-1.5 py-0.5 font-mono text-[14px]",
                         CAT_TONE[g.category],
                       )}
                     >
@@ -234,15 +229,10 @@ export function ZeroWidthExplorer() {
         </div>
         <article className="rounded-[22px] border border-line bg-surface p-5">
           <h2 className="font-semibold">The catalogue Origina watches</h2>
-          <p className="mt-2 text-sm text-ink-soft">
-            Spec 2.1.3–2.1.6: zero-width characters, homoglyphs (separate agent), hidden text, and
-            abnormal control / bidi / non-printing marks. {INVISIBLES.length} code points are named
-            below.
-          </p>
           <ul className="mt-4 grid grid-cols-2 gap-1.5 text-xs">
             {INVISIBLES.map((m) => (
               <li key={m.code} className="flex items-center gap-2 font-mono text-ink-soft">
-                <span className={cn("rounded-sm px-1 py-0.5 text-[10px]", CAT_TONE[m.category])}>
+                <span className={cn("rounded-sm px-1 py-0.5 text-[14px]", CAT_TONE[m.category])}>
                   {m.short}
                 </span>
                 U+{m.code.toString(16).toUpperCase().padStart(4, "0")}

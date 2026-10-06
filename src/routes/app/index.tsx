@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getDashboard } from "@/lib/origina/actions";
-import { CAMPUSES, ROLE_META } from "@/lib/origina/types";
+import { ROLE_META } from "@/lib/origina/types";
 import { formatDate, scoreTone } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
@@ -17,8 +17,7 @@ function Dashboard() {
   if (q.error || !q.data) {
     return <p className="text-sm text-risk">Could not load the dashboard.</p>;
   }
-  const { profile, stats, recent, attention, sla } = q.data;
-  const campus = CAMPUSES.find((c) => c.id === profile.campus);
+  const { profile, stats, recent, attention } = q.data;
   const staff = profile.role !== "student";
 
   return (
@@ -26,16 +25,13 @@ function Dashboard() {
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-            {campus?.place} · {ROLE_META[profile.role].label}
+            {[profile.orgShortName, profile.campusName, ROLE_META[profile.role].label]
+              .filter(Boolean)
+              .join(" · ")}
           </p>
           <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">
             {staff ? "Integrity desk" : `Good day, ${profile.fullName.split(" ")[0]}`}
           </h1>
-          <p className="mt-2 max-w-xl text-sm text-ink-soft">
-            {staff
-              ? "Review flagged work, keep Moodle in step, and leave a trail that can stand in a hearing."
-              : "Submit writing, see what matched, and learn from the report before the due date."}
-          </p>
         </div>
         <Button asChild>
           <Link to="/app/submit">
@@ -49,7 +45,7 @@ function Dashboard() {
           ["Submissions", stats.submissions, "Processed"],
           ["Average similarity", `${stats.avgSimilarity}%`, "Across reports"],
           ["Needs attention", stats.flagged, "≥ 25% or high AI"],
-          ["SLA this month", `${sla.availability}%`, `${sla.incidentsOpen} open incidents`],
+          ["AI screened", stats.aiScreened, "With an AI indicator"],
         ].map(([label, value, hint]) => (
           <article
             key={label}
@@ -80,7 +76,7 @@ function Dashboard() {
                     <Link
                       to="/app/reports/$reportId"
                       params={{ reportId: s.reportId }}
-                      className="text-sm text-teal hover:underline"
+                      className="text-sm text-lime-ink hover:underline"
                     >
                       Open
                     </Link>
@@ -95,7 +91,7 @@ function Dashboard() {
       <section>
         <div className="flex items-center justify-between">
           <h2 className="font-display text-xl font-medium">Recent reports</h2>
-          <Link to="/app/submissions" className="flex items-center gap-1 text-sm text-teal">
+          <Link to="/app/submissions" className="flex items-center gap-1 text-sm text-lime-ink">
             All submissions <ArrowRight className="size-4" />
           </Link>
         </div>
@@ -120,7 +116,7 @@ function Dashboard() {
                     <Link
                       to="/app/reports/$reportId"
                       params={{ reportId: s.reportId }}
-                      className="text-sm text-teal"
+                      className="text-sm text-lime-ink"
                     >
                       Report
                     </Link>
@@ -136,7 +132,7 @@ function Dashboard() {
 }
 
 function ToneBadge({ n, prefix }: { n: number | null; prefix: string }) {
-  if (n == null) return <Badge tone="muted">{prefix} —</Badge>;
+  if (n == null) return <Badge tone="muted">{prefix} -</Badge>;
   const tone = scoreTone(n);
   return (
     <Badge tone={tone === "ok" ? "ok" : tone === "warn" ? "warn" : "risk"}>

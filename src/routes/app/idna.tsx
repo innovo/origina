@@ -7,15 +7,8 @@ function AppIdna() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-          Citation URLs · IDNA2008
-        </p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">IDNA 2008</h1>
-        <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-          RFC 5890–5894 plus UTS #46. Transitional (2003) mapping versus nontransitional
-          registration, including CONTEXTJ joiners that still turn up in citation URLs.
-        </p>
-        <Link to="/idna" className="mt-2 inline-block text-sm text-teal">
+        <h1 className="font-display text-3xl font-medium tracking-tight">IDNA 2008</h1>
+        <Link to="/idna" className="mt-2 inline-block text-sm text-lime-ink">
           Open the public version
         </Link>
       </header>

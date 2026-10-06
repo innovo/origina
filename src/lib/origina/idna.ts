@@ -64,7 +64,7 @@ export const RFC_STACK = [
   {
     id: "5891",
     title: "RFC 5891",
-    body: "Protocol. Registration and lookup. No mapping in the protocol itself — that is the break from 2003.",
+    body: "Protocol. Registration and lookup. No mapping in the protocol itself, that is the break from 2003.",
   },
   {
     id: "5892",

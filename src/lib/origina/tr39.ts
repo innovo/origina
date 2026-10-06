@@ -26,7 +26,7 @@ function isBasicLatin(s: string) {
   return true;
 }
 
-/** UTS39 skeleton as the unicode-confusables package implements it — including ASCII confusables such as m → rn. */
+/** UTS39 skeleton as the unicode-confusables package implements it, including ASCII confusables such as m → rn. */
 export function foldTr39Raw(text: string): LibraryFold {
   const parts = confusables(text);
   const hits: FoldHit[] = [];
@@ -118,7 +118,7 @@ export function librarySurvey() {
       data: "UTS39 confusables.txt (Unicode 10)",
       size: "~96 KB JSON",
       use: "Identifiers, ENS-style names, IDN labels",
-      skip: "Running prose — maps m → rn, I → l, 0 → O",
+      skip: "Running prose, maps m → rn, I → l, 0 → O",
       wired: true,
     },
     {

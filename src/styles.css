@@ -2,22 +2,26 @@
 
 @theme {
   --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", serif;
+  --font-display: "Poppins", "Figtree", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --color-paper: #f3eee4;
-  --color-paper-2: #e7dfd0;
-  --color-ink: #1a242e;
-  --color-ink-soft: #3d4854;
-  --color-muted: #6b645c;
-  --color-line: #d4cbbd;
-  --color-line-strong: #b9ae9d;
-  --color-surface: #fbf7f0;
-  --color-surface-2: #fffdf8;
-  --color-teal: #1b5f58;
-  --color-teal-fg: #f3eee4;
-  --color-teal-soft: #d5ebe7;
-  --color-teal-deep: #0e3f3a;
+  /* Innovo Networks brand */
+  --color-navy: #0b1926;
+  --color-navy-2: #132637;
+  --color-lime: #bed62f;
+  --color-lime-deep: #a7c21f;
+  --color-lime-soft: #eef5cc;
+  --color-lime-ink: #5a7a0c; /* lime darkened for readable text on light backgrounds */
+
+  --color-paper: #f5f7f2;
+  --color-paper-2: #e8ece3;
+  --color-ink: #0b1926;
+  --color-ink-soft: #2e3e4e;
+  --color-muted: #5b6672;
+  --color-line: #d5dbd2;
+  --color-line-strong: #b5beb2;
+  --color-surface: #fbfcf9;
+  --color-surface-2: #ffffff;
   --color-risk: #a8482a;
   --color-risk-soft: #f4ddd4;
   --color-ok: #2f6b4f;
@@ -27,14 +31,26 @@
   --color-ai: #3d4d6b;
   --color-ai-soft: #dfe4ee;
 
+  /* Type scale: Tailwind defaults + 2px */
+  --text-xs: 14px;
+  --text-sm: 16px;
+  --text-base: 18px;
+  --text-lg: 20px;
+  --text-xl: 22px;
+  --text-2xl: 26px;
+  --text-3xl: 32px;
+  --text-4xl: 38px;
+  --text-5xl: 50px;
+  --text-6xl: 62px;
+
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 18px;
   --radius-xl: 28px;
 
-  --shadow-page: 0 1px 0 rgba(26, 36, 46, 0.04), 0 12px 40px -24px rgba(26, 36, 46, 0.35);
-  --shadow-lift: 0 10px 30px -18px rgba(26, 36, 46, 0.28);
+  --shadow-page: 0 1px 0 rgba(11, 25, 38, 0.04), 0 12px 40px -24px rgba(11, 25, 38, 0.35);
+  --shadow-lift: 0 10px 30px -18px rgba(11, 25, 38, 0.28);
 }
 
 @layer base {
@@ -53,10 +69,11 @@
 
   body {
     font-family: var(--font-sans);
+    font-size: 18px;
     background-color: var(--color-paper);
     background-image:
-      radial-gradient(ellipse 120% 60% at 100% -10%, rgba(27, 95, 88, 0.06), transparent 50%),
-      radial-gradient(ellipse 80% 40% at -10% 20%, rgba(168, 72, 42, 0.04), transparent 45%);
+      radial-gradient(ellipse 120% 60% at 100% -10%, rgba(190, 214, 47, 0.10), transparent 50%),
+      radial-gradient(ellipse 80% 40% at -10% 20%, rgba(11, 25, 38, 0.04), transparent 45%);
   }
 
   h1,
@@ -75,7 +92,7 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-teal) 28%, transparent);
+    background: color-mix(in oklab, var(--color-lime) 45%, transparent);
     color: var(--color-ink);
   }
 }
@@ -100,16 +117,16 @@
     to bottom,
     transparent,
     transparent 27px,
-    color-mix(in oklab, var(--color-teal) 12%, transparent) 28px
+    color-mix(in oklab, var(--color-lime-deep) 18%, transparent) 28px
   );
 }
 
 .mark-direct {
-  background: color-mix(in oklab, var(--color-teal) 22%, transparent);
+  background: color-mix(in oklab, var(--color-lime) 40%, transparent);
   box-decoration-break: clone;
 }
 .mark-partial {
-  background: color-mix(in oklab, var(--color-teal) 14%, transparent);
+  background: color-mix(in oklab, var(--color-lime) 24%, transparent);
   box-decoration-break: clone;
 }
 .mark-semantic {

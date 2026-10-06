@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input, Label, Textarea } from "@/components/ui/input";
 import {
   getProfile,
+  listCampuses,
   listCourses,
   listAssignments,
   createCourse,
   createAssignment,
 } from "@/lib/origina/actions";
-import { CAMPUSES } from "@/lib/origina/types";
 
 export const Route = createFileRoute("/app/courses")({ component: Courses });
 
@@ -22,13 +22,14 @@ function Courses() {
   const staff = profile.data?.role === "teacher" || profile.data?.role === "admin";
   const [code, setCode] = useState("");
   const [title, setTitle] = useState("");
-  const [campus, setCampus] = useState("athlone");
+  const campuses = useQuery({ queryKey: ["campuses"], queryFn: () => listCampuses() });
+  const [campus, setCampus] = useState("");
   const [aCourse, setACourse] = useState("");
   const [aTitle, setATitle] = useState("");
   const [aDesc, setADesc] = useState("");
 
   const addCourse = useMutation({
-    mutationFn: () => createCourse({ data: { code, title, campus } }),
+    mutationFn: () => createCourse({ data: { code, title, campus: campus || null } }),
     onSuccess: async () => {
       setCode("");
       setTitle("");
@@ -48,20 +49,26 @@ function Courses() {
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Curriculum</p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">
+        <h1 className="font-display text-3xl font-medium tracking-tight">
           Courses & assignments
         </h1>
       </header>
+      {courses.data && courses.data.length === 0 && (
+        <p className="rounded-[22px] border border-dashed border-line-strong bg-surface px-5 py-6 text-sm text-ink-soft">
+          No courses yet.{" "}
+          {staff
+            ? "Create the first one below, then add assignments students can submit against."
+            : "Your lecturers will add courses here."}
+        </p>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
         {(courses.data ?? []).map((c) => {
-          const place = CAMPUSES.find((x) => x.id === c.campus)?.place;
           return (
             <article key={c.id} className="rounded-[22px] border border-line bg-surface p-5">
               <p className="text-xs uppercase tracking-wider text-muted">{c.code}</p>
               <h2 className="mt-1 font-semibold">{c.title}</h2>
               <p className="mt-1 text-sm text-muted">
-                {place} · {c.assignmentCount} assignments
+                {[c.campusName, `${c.assignmentCount} assignments`].filter(Boolean).join(" · ")}
               </p>
               <ul className="mt-3 space-y-1 text-sm text-ink-soft">
                 {(assignments.data ?? [])
@@ -98,21 +105,28 @@ function Courses() {
                   required
                 />
               </div>
-              <div>
-                <Label htmlFor="camp">Campus</Label>
-                <select
-                  id="camp"
-                  className="h-11 w-full rounded-xl border border-line bg-surface-2 px-3 text-sm"
-                  value={campus}
-                  onChange={(e) => setCampus(e.target.value)}
-                >
-                  {CAMPUSES.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.place}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {(campuses.data ?? []).length > 0 && (
+                <div>
+                  <Label htmlFor="camp">Campus</Label>
+                  <select
+                    id="camp"
+                    className="h-11 w-full rounded-xl border border-line bg-surface-2 px-3 text-sm"
+                    value={campus}
+                    onChange={(e) => setCampus(e.target.value)}
+                    required
+                  >
+                    <option value="">Select</option>
+                    {(campuses.data ?? []).map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              {addCourse.error && (
+                <p className="text-sm text-risk">{addCourse.error.message}</p>
+              )}
               <Button type="submit" disabled={addCourse.isPending}>
                 Create course
               </Button>
@@ -162,6 +176,9 @@ function Courses() {
                   onChange={(e) => setADesc(e.target.value)}
                 />
               </div>
+              {addAssignment.error && (
+                <p className="text-sm text-risk">{addAssignment.error.message}</p>
+              )}
               <Button type="submit" disabled={addAssignment.isPending}>
                 Create assignment
               </Button>

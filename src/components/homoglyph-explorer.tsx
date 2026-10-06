@@ -24,7 +24,7 @@ const SCRIPT_TONE: Record<GlyphScript, string> = {
   cyrillic: "bg-risk-soft text-risk",
   greek: "bg-ai-soft text-ai",
   fullwidth: "bg-warn-soft text-warn",
-  compat: "bg-teal-soft text-teal-deep",
+  compat: "bg-lime-soft text-navy",
   digit: "bg-ok-soft text-ok",
 };
 
@@ -120,7 +120,7 @@ export function HomoglyphExplorer() {
         <Stat
           label="Similarity once folded"
           value={`${foldedFindings.similarity}%`}
-          hint={foldedFindings.sources[0]?.title ?? "Against the college library"}
+          hint={foldedFindings.sources[0]?.title ?? "Against the source library"}
         />
       </section>
 
@@ -128,7 +128,7 @@ export function HomoglyphExplorer() {
         <Method
           name="Skeleton folding"
           count={inspected.methods.skeleton}
-          body="Hand map of Cyrillic and Greek lookalikes, tuned for nursing scripts and IDN labels."
+          body="Hand map of Cyrillic and Greek lookalikes, tuned for academic scripts and IDN labels."
         />
         <Method
           name="UTS39 prose-safe"
@@ -209,7 +209,7 @@ export function HomoglyphExplorer() {
                   onClick={() => setFilter(f.id)}
                   className={cn(
                     "h-8 rounded-full px-2.5 text-xs",
-                    filter === f.id ? "bg-teal text-teal-fg" : "bg-paper-2 text-muted",
+                    filter === f.id ? "bg-lime text-navy" : "bg-paper-2 text-muted",
                   )}
                 >
                   {f.label}
@@ -223,18 +223,14 @@ export function HomoglyphExplorer() {
 
       {inspected.hits.length > 0 && (
         <aside className="rounded-2xl border border-risk/30 bg-risk-soft px-4 py-3 text-sm text-risk">
-          Without folding, “{rawFindings.sampleRaw}” would not match “{rawFindings.sampleFolded}”.
-          Origina folds first — similarity on this passage is {foldedFindings.similarity}%.
+          “{rawFindings.sampleRaw}” is really “{rawFindings.sampleFolded}”. Similarity after
+          folding: {foldedFindings.similarity}%.
         </aside>
       )}
 
       {inspected.mixedWords.length > 0 && (
         <section className="rounded-[22px] border border-line bg-surface p-5">
           <h2 className="font-semibold">Mixed-script words</h2>
-          <p className="mt-1 text-sm text-ink-soft">
-            Each of these tokens mixes alphabets. That never happens in a typed English or Afrikaans
-            sentence — it is a substitution fingerprint.
-          </p>
           <ul className="mt-3 flex flex-wrap gap-2">
             {inspected.mixedWords.slice(0, 16).map((w) => (
               <li
@@ -290,10 +286,6 @@ export function HomoglyphExplorer() {
         </div>
         <article className="rounded-[22px] border border-line bg-surface p-5">
           <h2 className="font-semibold">The catalogue Origina folds</h2>
-          <p className="mt-2 text-sm text-ink-soft">
-            Spec 2.1.4. {HOMOGLYPHS.length} code points: Cyrillic and Greek lookalikes, fullwidth
-            A–Z/a–z, and a few letterlike symbols. Digits are handled by context, not a static map.
-          </p>
           <ul className="mt-4 grid grid-cols-2 gap-1.5 text-xs">
             {catalog.map((m) => (
               <li key={m.code + m.from} className="flex items-center gap-2 font-mono text-ink-soft">
@@ -305,7 +297,7 @@ export function HomoglyphExplorer() {
             ))}
           </ul>
           <p className="mt-3 text-xs text-muted">
-            Plus U+FF21–U+FF3A and U+FF41–U+FF5A (fullwidth Latin), folded via NFKC.
+            Plus U+FF21-U+FF3A and U+FF41-U+FF5A (fullwidth Latin), folded via NFKC.
           </p>
         </article>
       </section>

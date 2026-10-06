@@ -43,7 +43,7 @@ export function ScoreRing({
         </svg>
         <div className="absolute inset-0 grid place-items-center">
           <span className="font-display text-2xl tabular-nums text-ink">
-            {value == null ? "—" : `${Math.round(value)}`}
+            {value == null ? "-" : `${Math.round(value)}`}
             {value != null && <span className="text-sm text-muted">%</span>}
           </span>
         </div>

@@ -9,9 +9,9 @@ function Analytics() {
   const dash = useQuery({ queryKey: ["dashboard"], queryFn: () => getDashboard() });
   const list = useQuery({ queryKey: ["submissions"], queryFn: () => listSubmissions() });
   const buckets = [
-    { name: "0–14", n: 0 },
-    { name: "15–24", n: 0 },
-    { name: "25–49", n: 0 },
+    { name: "0-14", n: 0 },
+    { name: "15-24", n: 0 },
+    { name: "25-49", n: 0 },
     { name: "50+", n: 0 },
   ];
   for (const s of list.data ?? []) {
@@ -26,10 +26,7 @@ function Analytics() {
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-          Administrators & staff
-        </p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">Analytics</h1>
+        <h1 className="font-display text-3xl font-medium tracking-tight">Analytics</h1>
       </header>
       <section className="grid gap-3 sm:grid-cols-3">
         <Stat label="Checks" value={stats?.submissions ?? 0} />
@@ -42,11 +39,11 @@ function Analytics() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={buckets}>
               <CartesianGrid stroke="var(--color-line)" vertical={false} />
-              <XAxis dataKey="name" stroke="var(--color-muted)" fontSize={12} tickLine={false} />
+              <XAxis dataKey="name" stroke="var(--color-muted)" fontSize={14} tickLine={false} />
               <YAxis
                 allowDecimals={false}
                 stroke="var(--color-muted)"
-                fontSize={12}
+                fontSize={14}
                 tickLine={false}
               />
               <Tooltip
@@ -56,7 +53,7 @@ function Analytics() {
                   borderRadius: 12,
                 }}
               />
-              <Bar dataKey="n" fill="var(--color-teal)" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="n" fill="var(--color-lime-deep)" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

@@ -5,14 +5,19 @@ import { ScoreRing } from "@/components/score-ring";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/input";
 import type { Findings, MatchKind } from "@/lib/origina/types";
-import { CAMPUSES } from "@/lib/origina/types";
-import { cn, formatDate, scoreTone } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 const KIND_LABEL: Record<MatchKind, string> = {
   direct: "Direct match",
   partial: "Partial match",
   semantic: "Meaning-based",
   self: "Self-plagiarism",
+};
+
+const JUDGEMENT_LABEL: Record<string, string> = {
+  clear: "No case",
+  discuss: "Discuss with student",
+  refer: "Refer to panel",
 };
 
 export function ReportView({
@@ -22,9 +27,10 @@ export function ReportView({
   findings,
   createdAt,
   authorName,
-  campus,
+  campusName,
   canJudge,
   onJudge,
+  judgements = [],
   backTo,
 }: {
   title: string;
@@ -33,17 +39,15 @@ export function ReportView({
   findings: Findings;
   createdAt?: string;
   authorName?: string | null;
-  campus?: string | null;
+  campusName?: string | null;
   canJudge?: boolean;
   onJudge?: (decision: string, note: string) => Promise<void>;
+  judgements?: { id: string; decision: string; note: string | null; createdAt: string; byName: string | null }[];
   backTo?: string;
 }) {
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
-  const campusMeta = CAMPUSES.find((c) => c.id === campus);
-  const simTone = scoreTone(findings.similarity);
-  const aiTone = scoreTone(findings.ai.likelihood);
 
   return (
     <div className="space-y-8">
@@ -60,7 +64,7 @@ export function ReportView({
         <p className="mt-2 text-sm text-muted">
           {filename}
           {authorName ? ` · ${authorName}` : ""}
-          {campusMeta ? ` · ${campusMeta.place}` : ""}
+          {campusName ? ` · ${campusName}` : ""}
           {createdAt ? ` · ${formatDate(createdAt)}` : ""}
           {` · ${findings.wordCount} words · ${findings.language.name}`}
         </p>
@@ -75,7 +79,7 @@ export function ReportView({
         <ScoreRing
           value={findings.ai.likelihood}
           label="AI indicator"
-          hint={findings.ai.unavailable ? "Authorship agent unavailable" : "Decision support only"}
+          hint={findings.ai.unavailable ? "Not available" : "Not proof on its own"}
         />
         <ScoreRing
           value={findings.obfuscation.score}
@@ -109,7 +113,7 @@ export function ReportView({
                         {s.sourceRef} · {KIND_LABEL[s.kind]}
                       </p>
                     </div>
-                    <span className="font-display tabular-nums text-lg text-teal">
+                    <span className="font-display tabular-nums text-lg text-lime-ink">
                       {s.overlapPct}%
                     </span>
                   </div>
@@ -126,12 +130,11 @@ export function ReportView({
 
           <section className="rounded-[22px] border border-line bg-surface p-5">
             <h2 className="flex items-center gap-2 text-sm font-semibold text-ink">
-              <Fingerprint className="size-4" /> Obfuscation agent
+              <Fingerprint className="size-4" /> Hidden tricks
             </h2>
             {findings.obfuscation.flags.length === 0 ? (
               <p className="mt-3 text-sm text-muted">
-                No zero-width characters, homoglyphs, IDN lookalikes, hidden markup or control
-                characters detected.
+                Nothing hidden found.
               </p>
             ) : (
               <ul className="mt-3 space-y-2">
@@ -140,7 +143,7 @@ export function ReportView({
                     <span className="font-medium">{f.label}</span>
                     <span className="ml-2 tabular-nums">×{f.count}</span>
                     {f.samples[0] && (
-                      <p className="mt-1 font-mono text-[11px] opacity-80">{f.samples[0]}</p>
+                      <p className="mt-1 font-mono text-[14px] opacity-80">{f.samples[0]}</p>
                     )}
                   </li>
                 ))}
@@ -150,15 +153,11 @@ export function ReportView({
 
           <section className="rounded-[22px] border border-line bg-surface p-5">
             <h2 className="flex items-center gap-2 text-sm font-semibold text-ink">
-              <ScanSearch className="size-4" /> Authorship agent
+              <ScanSearch className="size-4" /> AI indicator
             </h2>
-            <p className="mt-1 text-xs text-muted">
-              Separate from similarity. Not a finding of misconduct.
-            </p>
             {findings.ai.unavailable ? (
               <p className="mt-3 text-sm text-muted">
-                Authorship screening was not available for this run. Similarity and obfuscation
-                still stand.
+                Not available. Add an AI API key to turn this on.
               </p>
             ) : (
               <div className="mt-3 space-y-2">
@@ -210,12 +209,9 @@ export function ReportView({
               <h2 className="flex items-center gap-2 text-sm font-semibold text-ink">
                 <Shield className="size-4" /> Academic judgement
               </h2>
-              <p className="mt-1 text-xs text-muted">
-                Record a decision. Origina never closes a case on its own.
-              </p>
               <Textarea
                 className="mt-3 min-h-24"
-                placeholder="Optional note for the disciplinary file"
+                placeholder="Note (optional)"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
               />
@@ -235,6 +231,9 @@ export function ReportView({
                       try {
                         await onJudge(id, note);
                         setDone(label);
+                        setNote("");
+                      } catch (err) {
+                        setDone(err instanceof Error ? `Not saved: ${err.message}` : "Not saved");
                       } finally {
                         setBusy(null);
                       }
@@ -244,10 +243,20 @@ export function ReportView({
                   </Button>
                 ))}
               </div>
-              {done && (
-                <p className="mt-2 text-sm text-ok">
-                  Recorded: {done}. Written to the audit trail.
-                </p>
+              {done && <p className="mt-2 text-sm text-ok">Saved: {done}</p>}
+              {judgements.length > 0 && (
+                <ul className="mt-4 space-y-2 border-t border-line pt-3 text-sm">
+                  {judgements.map((j) => (
+                    <li key={j.id}>
+                      <span className="font-medium">{JUDGEMENT_LABEL[j.decision] ?? j.decision}</span>
+                      <span className="text-muted">
+                        {" "}
+                        · {j.byName ?? "Staff"} · {formatDate(j.createdAt)}
+                      </span>
+                      {j.note && <p className="text-ink-soft">{j.note}</p>}
+                    </li>
+                  ))}
+                </ul>
               )}
             </section>
           )}
@@ -255,8 +264,7 @@ export function ReportView({
       </div>
 
       <p className={cn("text-xs text-muted")}>
-        Similarity tone: {simTone}. AI indicator tone: {aiTone}. Highlight colours: teal = copied or
-        partial overlap, warm = meaning-based, slate = self-plagiarism.
+        Green: copied or partial. Amber: meaning-based. Slate: self-plagiarism.
       </p>
     </div>
   );

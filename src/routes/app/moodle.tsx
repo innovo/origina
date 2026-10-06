@@ -1,113 +1,149 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { Copy, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
-import { createApiClient, listApiClients } from "@/lib/origina/actions";
+import {
+  createApiClient,
+  getProfile,
+  listApiClients,
+  revokeApiClient,
+} from "@/lib/origina/actions";
+import { formatDate } from "@/lib/utils";
 
-export const Route = createFileRoute("/app/moodle")({ component: Moodle });
+export const Route = createFileRoute("/app/moodle")({ component: ApiPage });
 
-function Moodle() {
+function ApiPage() {
   const qc = useQueryClient();
   const clients = useQuery({ queryKey: ["api-clients"], queryFn: () => listApiClients() });
-  const [name, setName] = useState("WCCN Moodle production");
+  const profile = useQuery({ queryKey: ["profile"], queryFn: () => getProfile() });
+  const defaultName = `${profile.data?.orgShortName ?? "Institution"} Moodle`;
+  const [customName, setName] = useState<string | null>(null);
+  const name = customName ?? defaultName;
   const [issued, setIssued] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const staff = profile.data?.role === "teacher" || profile.data?.role === "admin";
+
   const issue = useMutation({
     mutationFn: () => createApiClient({ data: { name } }),
     onSuccess: async (res) => {
       setIssued(res.token);
+      setName(null);
       await qc.invalidateQueries({ queryKey: ["api-clients"] });
     },
   });
+  const revoke = useMutation({
+    mutationFn: (id: string) => revokeApiClient({ data: { id } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["api-clients"] }),
+  });
+
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const example = `curl -X POST ${origin}/api/v1/check \\
+  -H "Authorization: Bearer YOUR_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"title":"Essay 1","author":"Student name","text":"..."}'`;
 
   return (
     <div className="space-y-8">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-          Application interface
-        </p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">Moodle LMS</h1>
-        <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-          Origina connects over LTI 1.3 and a REST API. Assignments check on upload, similarity
-          scores display in Moodle, and the detailed report opens here.
+        <h1 className="font-display text-3xl font-medium tracking-tight">Moodle & API</h1>
+        <p className="mt-2 text-sm text-ink-soft">
+          Send work from Moodle or any system and get scores back.
         </p>
       </header>
 
-      <section className="grid gap-4 lg:grid-cols-2">
-        <article className="rounded-[22px] border border-line bg-surface p-5">
-          <h2 className="font-semibold">LTI 1.3 tool</h2>
-          <dl className="mt-4 space-y-2 font-mono text-xs text-ink-soft">
-            <Row k="Initiate login" v="https://origina.wccn.ac.za/lti/login" />
-            <Row k="Redirect URI" v="https://origina.wccn.ac.za/lti/callback" />
-            <Row k="JWKS" v="https://origina.wccn.ac.za/.well-known/jwks.json" />
-            <Row k="Deployment" v="wccn-moodle-2027" />
-          </dl>
-          <p className="mt-4 text-sm text-muted">
-            Paste these into Site administration → Plugins → Activity modules → Origina. The live
-            endpoints activate when the college Moodle tenant is linked.
-          </p>
-        </article>
-        <article className="rounded-[22px] border border-line bg-[#f0ebe3] p-5">
-          <div className="rounded-xl bg-[#8e3b2b] px-3 py-2 text-sm text-paper">
-            Moodle assignment plugin
-          </div>
-          <p className="mt-4 text-sm font-medium">Student feedback visibility</p>
-          <ul className="mt-2 space-y-1 text-sm text-ink-soft">
-            <li>Show similarity score after due date</li>
-            <li>Allow student to open sources, not AI indicator</li>
-            <li>Staff always see both scores, separately</li>
-          </ul>
-          <p className="mt-4 text-sm font-medium">On upload</p>
-          <p className="text-sm text-ink-soft">
-            Moodle posts the file to Origina, receives a job id, then polls until the report is
-            ready. The gradebook column stays empty until academic staff release it.
-          </p>
-        </article>
-      </section>
+      {!staff ? (
+        <p className="text-sm text-muted">Staff only.</p>
+      ) : (
+        <>
+          <section className="rounded-[22px] border border-line bg-surface p-5">
+            <h2 className="font-semibold">API keys</h2>
+            <form
+              className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end"
+              onSubmit={(e) => {
+                e.preventDefault();
+                issue.mutate();
+              }}
+            >
+              <div className="flex-1">
+                <Label htmlFor="n">Name</Label>
+                <Input id="n" value={name} onChange={(e) => setName(e.target.value)} />
+              </div>
+              <Button type="submit" disabled={issue.isPending}>
+                Create key
+              </Button>
+            </form>
+            {issue.error && <p className="mt-2 text-sm text-risk">{issue.error.message}</p>}
+            {issued && (
+              <div className="mt-3 rounded-xl bg-ok-soft px-3 py-2 text-sm text-ok">
+                <p className="font-medium">Copy this key now. It will not be shown again.</p>
+                <div className="mt-1 flex items-center gap-2">
+                  <code className="break-all font-mono text-xs">{issued}</code>
+                  <button
+                    type="button"
+                    className="grid size-9 shrink-0 place-items-center rounded-lg hover:bg-ok/10"
+                    aria-label="Copy key"
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(issued);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    }}
+                  >
+                    <Copy className="size-4" />
+                  </button>
+                  {copied && <span className="text-xs">Copied</span>}
+                </div>
+              </div>
+            )}
+            <ul className="mt-4 divide-y divide-line">
+              {(clients.data ?? []).length === 0 && (
+                <li className="py-2 text-sm text-muted">No keys yet.</li>
+              )}
+              {(clients.data ?? []).map((c) => (
+                <li key={c.id} className="flex items-center justify-between gap-3 py-2 text-sm">
+                  <span>
+                    <span className="font-medium">{c.name}</span>
+                    <span className="ml-2 font-mono text-xs text-muted">{c.key_prefix}…</span>
+                    <span className="ml-2 text-xs text-muted">{formatDate(c.created_at)}</span>
+                  </span>
+                  <button
+                    type="button"
+                    className="grid size-10 place-items-center rounded-lg text-muted hover:bg-paper-2 hover:text-risk"
+                    aria-label={`Revoke ${c.name}`}
+                    onClick={() => {
+                      if (window.confirm(`Revoke ${c.name}? It stops working immediately.`))
+                        revoke.mutate(c.id);
+                    }}
+                  >
+                    <Trash2 className="size-4" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-      <section className="rounded-[22px] border border-line bg-surface p-5">
-        <h2 className="font-semibold">REST API client</h2>
-        <p className="mt-1 text-sm text-muted">
-          POST /api/origina/check with the bearer token. Returns report id and both scores.
-        </p>
-        <form
-          className="mt-4 flex flex-col gap-3 sm:flex-row"
-          onSubmit={(e) => {
-            e.preventDefault();
-            issue.mutate();
-          }}
-        >
-          <div className="flex-1">
-            <Label htmlFor="n">Client name</Label>
-            <Input id="n" value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
-          <Button type="submit" className="sm:mt-6" disabled={issue.isPending}>
-            Issue key
-          </Button>
-        </form>
-        {issued && (
-          <p className="mt-3 break-all rounded-xl bg-ok-soft px-3 py-2 font-mono text-xs text-ok">
-            Copy now — {issued}
-          </p>
-        )}
-        <ul className="mt-4 space-y-2 text-sm">
-          {(clients.data ?? []).map((c) => (
-            <li key={c.id} className="flex justify-between border-t border-line pt-2">
-              <span>{c.name}</span>
-              <span className="font-mono text-xs text-muted">{c.key_prefix}…</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </div>
-  );
-}
-
-function Row({ k, v }: { k: string; v: string }) {
-  return (
-    <div className="flex flex-col gap-0.5 sm:flex-row sm:justify-between">
-      <dt className="text-muted">{k}</dt>
-      <dd>{v}</dd>
+          <section className="rounded-[22px] border border-line bg-surface p-5">
+            <h2 className="font-semibold">Endpoints</h2>
+            <dl className="mt-3 space-y-2 text-sm">
+              <div>
+                <dt className="font-mono text-xs text-lime-ink">POST /api/v1/check</dt>
+                <dd className="text-ink-soft">
+                  Body: text (required), title, author, filename, assignmentId. Returns scores and
+                  reportId.
+                </dd>
+              </div>
+              <div>
+                <dt className="font-mono text-xs text-lime-ink">GET /api/v1/reports/:reportId</dt>
+                <dd className="text-ink-soft">Returns scores and matched sources.</dd>
+              </div>
+            </dl>
+            <pre className="mt-4 overflow-x-auto rounded-xl bg-navy p-4 font-mono text-xs leading-relaxed text-paper">
+              {example}
+            </pre>
+          </section>
+        </>
+      )}
     </div>
   );
 }

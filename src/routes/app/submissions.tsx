@@ -11,18 +11,13 @@ function Submissions() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Library</p>
-        <h1 className="font-display mt-1 text-3xl font-medium tracking-tight">Submissions</h1>
-        <p className="mt-2 text-sm text-ink-soft">
-          Past reports remain available for the student who wrote them and for academic staff
-          reviewing a module.
-        </p>
+        <h1 className="font-display text-3xl font-medium tracking-tight">Submissions</h1>
       </header>
       {q.isPending && <p className="text-sm text-muted">Loading…</p>}
       {q.data && q.data.length === 0 && (
         <p className="rounded-[22px] border border-dashed border-line px-4 py-10 text-center text-sm text-muted">
           Nothing here yet.{" "}
-          <Link to="/app/submit" className="text-teal">
+          <Link to="/app/submit" className="text-lime-ink">
             Submit a first piece of writing.
           </Link>
         </p>
@@ -47,7 +42,7 @@ function Submissions() {
                       <Link
                         to="/app/reports/$reportId"
                         params={{ reportId: s.reportId }}
-                        className="font-medium text-ink hover:text-teal"
+                        className="font-medium text-ink hover:text-lime-ink"
                       >
                         {s.title}
                       </Link>
@@ -56,7 +51,7 @@ function Submissions() {
                     )}
                     <p className="text-xs text-muted">{s.filename}</p>
                   </td>
-                  <td className="px-4 py-3 text-ink-soft">{s.authorName ?? "—"}</td>
+                  <td className="px-4 py-3 text-ink-soft">{s.authorName ?? "-"}</td>
                   <td className="px-4 py-3">
                     <Pct n={s.similarityPct} />
                   </td>
@@ -75,7 +70,7 @@ function Submissions() {
 }
 
 function Pct({ n }: { n: number | null }) {
-  if (n == null) return <Badge tone="muted">—</Badge>;
+  if (n == null) return <Badge tone="muted">-</Badge>;
   const tone = scoreTone(n);
   return <Badge tone={tone === "ok" ? "ok" : tone === "warn" ? "warn" : "risk"}>{n}%</Badge>;
 }

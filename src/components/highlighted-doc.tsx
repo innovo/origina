@@ -51,7 +51,7 @@ export function HighlightedDoc({
   return (
     <div
       className={cn(
-        "paper-rule rounded-[22px] border border-line bg-surface-2 p-6 text-[15px] leading-7 text-ink shadow-[var(--shadow-page)] sm:p-8",
+        "paper-rule rounded-[22px] border border-line bg-surface-2 p-6 text-[17px] leading-7 text-ink shadow-[var(--shadow-page)] sm:p-8",
         className,
       )}
     >
