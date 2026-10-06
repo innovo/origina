@@ -1,6 +1,5 @@
 name: Android APK
 
-# Builds the Origina Android app. Run it from GitHub: Actions > Android APK > Run workflow.
 on:
   workflow_dispatch:
     inputs:
@@ -11,7 +10,7 @@ on:
 
 jobs:
   build:
-        runs-on: ubuntu-24.04
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: mobile
@@ -27,7 +26,6 @@ jobs:
           distribution: temurin
           java-version: 21
 
-
       - name: Install Capacitor
         run: npm install --no-audit --no-fund
 
@@ -39,7 +37,7 @@ jobs:
           KEYSTORE_BASE64: ${{ secrets.ORIGINA_KEYSTORE_BASE64 }}
         run: |
           if [ -z "$KEYSTORE_BASE64" ]; then
-            echo "::error::Add the ORIGINA_KEYSTORE_BASE64 secret first (see deployment steps)."
+            echo "::error::Add the ORIGINA_KEYSTORE_BASE64 secret first."
             exit 1
           fi
           echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/origina-release.jks"
