@@ -1,7 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="Origina">
-  <rect width="1080" height="1080" rx="240" fill="#0B1926"/>
-  <g transform="translate(540 570) scale(1.35) translate(-540 -570)">
-    <circle cx="540" cy="322" r="45" fill="none" stroke="#BED62F" stroke-width="30"/>
-    <rect x="498" y="422" width="84" height="396" rx="42" fill="#FFFFFF"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-13.393 -16.987 135.488 135.488"><rect x="-13.392884654383508" y="-16.987386149744836" width="135.48751338835686" height="135.48751338835686" rx="32.51700321320565" fill="#0B1926"/><path d="M88.805 44.262C91.339 58.633 84.947 73.112 72.62 80.922C60.293 88.733 44.471 88.329 32.558 79.9C20.646 71.472 15 56.685 18.263 42.462C21.527 28.239 33.054 17.393 47.449 15" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M37.352 50.513L51.352 64.513L91.352 18.513" fill="none" stroke="#BED62F" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
