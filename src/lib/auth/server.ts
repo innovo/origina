@@ -17,6 +17,7 @@ import { getCookie } from "@tanstack/react-start/server";
 import { randomBytes } from "node:crypto";
 import { Pool } from "pg";
 import { ensureDbReady, getPglite } from "../db";
+import { emailConfigured, resetPasswordEmail, sendEmail, verificationEmail } from "../email.server";
 import { pgliteDialect } from "./pglite-dialect";
 
 void ensureDbReady();
@@ -99,8 +100,22 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
-    // Only allow sign-up from these email domains when set, e.g.
-    // "westerncape.gov.za,innovonet.co.za". Empty = anyone can sign up.
+    // New accounts must confirm their email once email sending is set up
+    // (RESEND_API_KEY). Without it, verification stays off so nobody is locked out.
+    requireEmailVerification: emailConfigured,
+    resetPasswordTokenExpiresIn: 60 * 60,
+    sendResetPassword: async ({ user, url }) => {
+      await sendEmail(user.email, "Reset your Origina password", resetPasswordEmail(user.name, url));
+    },
+  },
+  emailVerification: {
+    sendOnSignUp: emailConfigured,
+    sendOnSignIn: emailConfigured,
+    autoSignInAfterVerification: true,
+    expiresIn: 24 * 60 * 60,
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendEmail(user.email, "Confirm your Origina email", verificationEmail(user.name, url));
+    },
   },
   session: { cookieCache: { enabled: true, maxAge: 300 } },
   advanced: {

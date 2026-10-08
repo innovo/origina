@@ -12,6 +12,8 @@ function People() {
   const mutate = useMutation({
     mutationFn: (input: { userId: string; role: Role }) => setPersonRole({ data: input }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["people"] }),
+    // Put the dropdown back if the change was refused (for example, no free seats).
+    onError: () => qc.invalidateQueries({ queryKey: ["people"] }),
   });
 
   return (
@@ -19,6 +21,7 @@ function People() {
       <header>
         <h1 className="font-display text-3xl font-medium tracking-tight">People</h1>
       </header>
+      {mutate.error && <p className="text-sm text-risk">{mutate.error.message}</p>}
       {q.error && (
         <p className="text-sm text-risk">
           {q.error instanceof Error ? q.error.message : "Administrators only."}

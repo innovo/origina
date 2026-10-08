@@ -5,6 +5,7 @@ import {
   BookOpen,
   Building2,
   ClipboardList,
+  CreditCard,
   Database,
   EyeOff,
   Globe,
@@ -65,6 +66,7 @@ const NAV: { heading: string; items: Item[] }[] = [
       { to: "/app/organisation", label: "Organisation", icon: Building2, roles: ["teacher", "admin"] },
       { to: "/app/analytics", label: "Analytics", icon: Activity, roles: ["teacher", "admin"] },
       { to: "/app/people", label: "People", icon: Users, roles: ["admin"] },
+      { to: "/app/billing", label: "Billing", icon: CreditCard, roles: ["admin"] },
       { to: "/app/audit", label: "Audit trail", icon: Shield, roles: ["teacher", "admin"] },
       { to: "/app/training", label: "How to", icon: BookOpen },
       { to: "/app/settings", label: "Settings", icon: Settings },
@@ -201,34 +203,69 @@ export function AppShell({ profile, children }: { profile: Profile; children: Re
   );
 }
 
+const PUBLIC_NAV = [
+  { href: "/#features", label: "Features" },
+  { href: "/#why", label: "Why Origina" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/#faq", label: "FAQ" },
+];
+
 export function PublicHeader() {
+  const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-20 border-b border-white/10 bg-navy/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link to="/">
           <OriginaWordmark light />
         </Link>
-        <nav className="hidden items-center gap-6 text-sm text-paper/75 md:flex">
-          <a href="/#detect" className="hover:text-lime">
-            Features
-          </a>
-          <a href="/#scan" className="hover:text-lime">
-            Try it
-          </a>
-          <Link to="/zero-width" className="hover:text-lime">
-            Labs
+        <nav className="hidden items-center gap-6 text-sm text-paper/75 lg:flex">
+          {PUBLIC_NAV.map((n) => (
+            <a key={n.href} href={n.href} className="hover:text-lime">
+              {n.label}
+            </a>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2">
+          <Link
+            to="/login"
+            className="hidden h-11 items-center rounded-xl border border-white/25 px-4 text-sm font-semibold text-paper hover:border-lime hover:text-lime sm:inline-flex"
+          >
+            Sign in
           </Link>
-          <Link to="/sample-report" className="hover:text-lime">
-            Sample report
+          <a
+            href="/#demo"
+            className="inline-flex h-11 items-center rounded-xl bg-lime px-4 text-sm font-semibold text-navy hover:bg-lime-deep"
+          >
+            Book a demo
+          </a>
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+            className="grid size-11 place-items-center rounded-xl text-paper hover:bg-white/10 lg:hidden"
+          >
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
+      </div>
+      {open && (
+        <nav className="border-t border-white/10 px-4 py-3 lg:hidden">
+          {PUBLIC_NAV.map((n) => (
+            <a
+              key={n.href}
+              href={n.href}
+              onClick={() => setOpen(false)}
+              className="block rounded-lg px-2 py-3 text-paper/85 hover:text-lime"
+            >
+              {n.label}
+            </a>
+          ))}
+          <Link to="/login" className="block rounded-lg px-2 py-3 text-paper/85 hover:text-lime sm:hidden">
+            Sign in
           </Link>
         </nav>
-        <Link
-          to="/login"
-          className="inline-flex h-11 items-center rounded-xl bg-lime px-4 text-sm font-semibold text-navy hover:bg-lime-deep"
-        >
-          Sign in
-        </Link>
-      </div>
+      )}
     </header>
   );
 }
@@ -245,24 +282,9 @@ export function PublicFooter() {
           <Link to="/privacy" className="hover:text-lime">
             Privacy & POPIA
           </Link>
-          <Link to="/zero-width" className="hover:text-lime">
-            Zero-width lab
-          </Link>
-          <Link to="/homoglyphs" className="hover:text-lime">
-            Homoglyph lab
-          </Link>
-          <Link to="/idn" className="hover:text-lime">
-            IDN lab
-          </Link>
-          <Link to="/idna" className="hover:text-lime">
-            IDNA 2008
-          </Link>
-          <Link to="/libraries" className="hover:text-lime">
-            Libraries
-          </Link>
-          <Link to="/sample-report" className="hover:text-lime">
-            Sample report
-          </Link>
+          <a href="/#demo" className="hover:text-lime">
+            Book a demo
+          </a>
           <Link to="/login" className="hover:text-lime">
             Sign in
           </Link>

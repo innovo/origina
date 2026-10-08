@@ -1,3 +1,4 @@
+import type { BillingState } from "./billing";
 export type Role = "student" | "teacher" | "admin";
 
 export type CampusId = string;
@@ -18,6 +19,8 @@ export type Profile = {
   orgName: string | null;
   orgShortName: string | null;
   isPlatformAdmin: boolean;
+  /** The organisation's subscription (null when not in an organisation). */
+  billing: BillingState | null;
 };
 
 export type Campus = {
@@ -41,6 +44,8 @@ export type OrganizationSummary = Organization & {
   people: number;
   submissions: number;
   campuses: number;
+  staff: number;
+  billing: BillingState;
 };
 
 export type ObfuscationFlag = {

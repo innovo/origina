@@ -17,12 +17,15 @@ import { Route as IdnaRouteImport } from './routes/idna'
 import { Route as LibrariesRouteImport } from './routes/libraries'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ZeroWidthRouteImport } from './routes/zero-width'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppAgentsRouteImport } from './routes/app/agents'
 import { Route as AppAnalyticsRouteImport } from './routes/app/analytics'
 import { Route as AppAuditRouteImport } from './routes/app/audit'
+import { Route as AppBillingRouteImport } from './routes/app/billing'
 import { Route as AppCorpusRouteImport } from './routes/app/corpus'
 import { Route as AppCoursesRouteImport } from './routes/app/courses'
 import { Route as AppHomoglyphsRouteImport } from './routes/app/homoglyphs'
@@ -40,6 +43,7 @@ import { Route as AppSubmitRouteImport } from './routes/app/submit'
 import { Route as AppTrainingRouteImport } from './routes/app/training'
 import { Route as AppZeroWidthRouteImport } from './routes/app/zero-width'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiPayfastNotifyRouteImport } from './routes/api/payfast/notify'
 import { Route as ApiV1CheckRouteImport } from './routes/api/v1/check'
 import { Route as AppReportsReportIdRouteImport } from './routes/app/reports.$reportId'
 import { Route as ApiV1ReportsReportIdRouteImport } from './routes/api/v1/reports.$reportId'
@@ -84,9 +88,19 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SampleReportRoute = SampleReportRouteImport.update({
   id: '/sample-report',
   path: '/sample-report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ZeroWidthRoute = ZeroWidthRouteImport.update({
@@ -112,6 +126,11 @@ const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
 const AppAuditRoute = AppAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppBillingRoute = AppBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppCorpusRoute = AppCorpusRouteImport.update({
@@ -199,6 +218,11 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPayfastNotifyRoute = ApiPayfastNotifyRouteImport.update({
+  id: '/api/payfast/notify',
+  path: '/api/payfast/notify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiV1CheckRoute = ApiV1CheckRouteImport.update({
   id: '/api/v1/check',
   path: '/api/v1/check',
@@ -224,11 +248,14 @@ export interface FileRoutesByFullPath {
   '/libraries': typeof LibrariesRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
+  '/terms': typeof TermsRoute
   '/zero-width': typeof ZeroWidthRoute
   '/app/agents': typeof AppAgentsRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/billing': typeof AppBillingRoute
   '/app/corpus': typeof AppCorpusRoute
   '/app/courses': typeof AppCoursesRoute
   '/app/homoglyphs': typeof AppHomoglyphsRoute
@@ -247,6 +274,7 @@ export interface FileRoutesByFullPath {
   '/app/zero-width': typeof AppZeroWidthRoute
   '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/payfast/notify': typeof ApiPayfastNotifyRoute
   '/api/v1/check': typeof ApiV1CheckRoute
   '/app/reports/$reportId': typeof AppReportsReportIdRoute
   '/api/v1/reports/$reportId': typeof ApiV1ReportsReportIdRoute
@@ -259,11 +287,14 @@ export interface FileRoutesByTo {
   '/libraries': typeof LibrariesRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
+  '/terms': typeof TermsRoute
   '/zero-width': typeof ZeroWidthRoute
   '/app/agents': typeof AppAgentsRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/billing': typeof AppBillingRoute
   '/app/corpus': typeof AppCorpusRoute
   '/app/courses': typeof AppCoursesRoute
   '/app/homoglyphs': typeof AppHomoglyphsRoute
@@ -282,6 +313,7 @@ export interface FileRoutesByTo {
   '/app/zero-width': typeof AppZeroWidthRoute
   '/app': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/payfast/notify': typeof ApiPayfastNotifyRoute
   '/api/v1/check': typeof ApiV1CheckRoute
   '/app/reports/$reportId': typeof AppReportsReportIdRoute
   '/api/v1/reports/$reportId': typeof ApiV1ReportsReportIdRoute
@@ -296,11 +328,14 @@ export interface FileRoutesById {
   '/libraries': typeof LibrariesRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
+  '/terms': typeof TermsRoute
   '/zero-width': typeof ZeroWidthRoute
   '/app/agents': typeof AppAgentsRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/billing': typeof AppBillingRoute
   '/app/corpus': typeof AppCorpusRoute
   '/app/courses': typeof AppCoursesRoute
   '/app/homoglyphs': typeof AppHomoglyphsRoute
@@ -319,6 +354,7 @@ export interface FileRoutesById {
   '/app/zero-width': typeof AppZeroWidthRoute
   '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/payfast/notify': typeof ApiPayfastNotifyRoute
   '/api/v1/check': typeof ApiV1CheckRoute
   '/app/reports/$reportId': typeof AppReportsReportIdRoute
   '/api/v1/reports/$reportId': typeof ApiV1ReportsReportIdRoute
@@ -334,11 +370,14 @@ export interface FileRouteTypes {
     | '/libraries'
     | '/login'
     | '/privacy'
+    | '/reset-password'
     | '/sample-report'
+    | '/terms'
     | '/zero-width'
     | '/app/agents'
     | '/app/analytics'
     | '/app/audit'
+    | '/app/billing'
     | '/app/corpus'
     | '/app/courses'
     | '/app/homoglyphs'
@@ -357,6 +396,7 @@ export interface FileRouteTypes {
     | '/app/zero-width'
     | '/app/'
     | '/api/auth/$'
+    | '/api/payfast/notify'
     | '/api/v1/check'
     | '/app/reports/$reportId'
     | '/api/v1/reports/$reportId'
@@ -369,11 +409,14 @@ export interface FileRouteTypes {
     | '/libraries'
     | '/login'
     | '/privacy'
+    | '/reset-password'
     | '/sample-report'
+    | '/terms'
     | '/zero-width'
     | '/app/agents'
     | '/app/analytics'
     | '/app/audit'
+    | '/app/billing'
     | '/app/corpus'
     | '/app/courses'
     | '/app/homoglyphs'
@@ -392,6 +435,7 @@ export interface FileRouteTypes {
     | '/app/zero-width'
     | '/app'
     | '/api/auth/$'
+    | '/api/payfast/notify'
     | '/api/v1/check'
     | '/app/reports/$reportId'
     | '/api/v1/reports/$reportId'
@@ -405,11 +449,14 @@ export interface FileRouteTypes {
     | '/libraries'
     | '/login'
     | '/privacy'
+    | '/reset-password'
     | '/sample-report'
+    | '/terms'
     | '/zero-width'
     | '/app/agents'
     | '/app/analytics'
     | '/app/audit'
+    | '/app/billing'
     | '/app/corpus'
     | '/app/courses'
     | '/app/homoglyphs'
@@ -428,6 +475,7 @@ export interface FileRouteTypes {
     | '/app/zero-width'
     | '/app/'
     | '/api/auth/$'
+    | '/api/payfast/notify'
     | '/api/v1/check'
     | '/app/reports/$reportId'
     | '/api/v1/reports/$reportId'
@@ -442,9 +490,12 @@ export interface RootRouteChildren {
   LibrariesRoute: typeof LibrariesRoute
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SampleReportRoute: typeof SampleReportRoute
+  TermsRoute: typeof TermsRoute
   ZeroWidthRoute: typeof ZeroWidthRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiPayfastNotifyRoute: typeof ApiPayfastNotifyRoute
   ApiV1CheckRoute: typeof ApiV1CheckRoute
   ApiV1ReportsReportIdRoute: typeof ApiV1ReportsReportIdRoute
 }
@@ -507,11 +558,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sample-report': {
       id: '/sample-report'
       path: '/sample-report'
       fullPath: '/sample-report'
       preLoaderRoute: typeof SampleReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/zero-width': {
@@ -547,6 +612,13 @@ declare module '@tanstack/react-router' {
       path: '/audit'
       fullPath: '/app/audit'
       preLoaderRoute: typeof AppAuditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/billing': {
+      id: '/app/billing'
+      path: '/billing'
+      fullPath: '/app/billing'
+      preLoaderRoute: typeof AppBillingRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/corpus': {
@@ -668,6 +740,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/payfast/notify': {
+      id: '/api/payfast/notify'
+      path: '/api/payfast/notify'
+      fullPath: '/api/payfast/notify'
+      preLoaderRoute: typeof ApiPayfastNotifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/v1/check': {
       id: '/api/v1/check'
       path: '/api/v1/check'
@@ -696,6 +775,7 @@ interface AppRouteRouteChildren {
   AppAgentsRoute: typeof AppAgentsRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppAuditRoute: typeof AppAuditRoute
+  AppBillingRoute: typeof AppBillingRoute
   AppCorpusRoute: typeof AppCorpusRoute
   AppCoursesRoute: typeof AppCoursesRoute
   AppHomoglyphsRoute: typeof AppHomoglyphsRoute
@@ -720,6 +800,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppAgentsRoute: AppAgentsRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
   AppAuditRoute: AppAuditRoute,
+  AppBillingRoute: AppBillingRoute,
   AppCorpusRoute: AppCorpusRoute,
   AppCoursesRoute: AppCoursesRoute,
   AppHomoglyphsRoute: AppHomoglyphsRoute,
@@ -753,9 +834,12 @@ const rootRouteChildren: RootRouteChildren = {
   LibrariesRoute: LibrariesRoute,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SampleReportRoute: SampleReportRoute,
+  TermsRoute: TermsRoute,
   ZeroWidthRoute: ZeroWidthRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiPayfastNotifyRoute: ApiPayfastNotifyRoute,
   ApiV1CheckRoute: ApiV1CheckRoute,
   ApiV1ReportsReportIdRoute: ApiV1ReportsReportIdRoute,
 }
