@@ -13,6 +13,7 @@ import {
 } from "@/lib/origina/actions";
 import { PLAN_LABEL, rand } from "@/lib/origina/billing";
 import { formatDate } from "@/lib/utils";
+import { isNativeApp } from "@/lib/native";
 
 export const Route = createFileRoute("/app/billing")({
   validateSearch: (s: Record<string, unknown>): { paid?: string; cancelled?: string } => ({
@@ -82,6 +83,7 @@ function Billing() {
   if (q.error || !b) return <p className="text-risk">{q.error?.message ?? "Could not load billing."}</p>;
 
   const s = b.state;
+  const inApp = isNativeApp();
   const minSeats = Math.max(b.staff, 1);
   const total = b.seatPriceCents * seats;
 
@@ -145,7 +147,9 @@ function Billing() {
         </ul>
       </section>
 
-      {!b.canManage ? (
+      {inApp ? (
+        <p className="text-ink-soft">Subscriptions can't be changed in the app.</p>
+      ) : !b.canManage ? (
         <p className="text-ink-soft">Only your institution's administrators can manage billing.</p>
       ) : s.plan === "institution" ? null : (
         <>

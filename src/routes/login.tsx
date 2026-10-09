@@ -9,13 +9,20 @@ import { authClient, authEnabled } from "@/lib/auth/client";
 type Mode = "in" | "up" | "forgot";
 
 export const Route = createFileRoute("/login")({
-  validateSearch: (search: Record<string, unknown>): { mode?: "up" | "forgot" } =>
-    search.mode === "up" || search.mode === "forgot" ? { mode: search.mode } : {},
+  validateSearch: (search: Record<string, unknown>): { mode?: "up" | "forgot"; next?: string } => ({
+    mode: search.mode === "up" || search.mode === "forgot" ? search.mode : undefined,
+    // Only same-site paths, never another website.
+    next:
+      typeof search.next === "string" && search.next.startsWith("/") && !search.next.startsWith("//")
+        ? search.next
+        : undefined,
+  }),
   component: Login,
 });
 
 function Login() {
-  const { mode: startMode } = Route.useSearch();
+  const { mode: startMode, next } = Route.useSearch();
+  const after = next ?? "/app";
   const [mode, setMode] = useState<Mode>(startMode ?? "in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,6 +43,8 @@ function Login() {
     setBusy(true);
     setError(null);
     try {
+      // A different account may still be signed in on this browser.
+      await authClient.signOut().catch(() => undefined);
       const res = await authClient.sendVerificationEmail({ email, callbackURL: "/app" });
       if (res.error) throw new Error(res.error.message || "Could not send the email.");
       setNotice({
@@ -67,6 +76,7 @@ function Login() {
       }
       if (mode === "up") {
         if (!agree) throw new Error("Please accept the Terms and Privacy Policy.");
+        await authClient.signOut().catch(() => undefined);
         const res = await authClient.signUp.email({
           email,
           password,
@@ -84,7 +94,7 @@ function Login() {
           return;
         }
       } else {
-        const res = await authClient.signIn.email({ email, password, callbackURL: "/app" });
+        const res = await authClient.signIn.email({ email, password, callbackURL: after });
         if (res.error) {
           if (res.error.status === 403 || res.error.code === "EMAIL_NOT_VERIFIED") {
             setUnverified(true);
@@ -93,7 +103,7 @@ function Login() {
           throw new Error(res.error.message || "Could not sign in.");
         }
       }
-      window.location.assign("/app");
+      window.location.assign(after);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {

@@ -3,6 +3,7 @@ import { Lock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { AppShell, PageSkeleton } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
+import { isNativeApp } from "@/lib/native";
 import { RedirectToSignIn } from "@/lib/auth/gates";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
 import { getProfile } from "@/lib/origina/actions";
@@ -48,7 +49,7 @@ function AppLayout() {
   const trialDays = profile.billing?.plan === "trial" ? profile.billing.trialDaysLeft : 0;
   return (
     <AppShell profile={profile}>
-      {!locked && trialDays > 0 && profile.role === "admin" && pathname !== "/app/billing" && (
+      {!locked && trialDays > 0 && profile.role === "admin" && pathname !== "/app/billing" && !isNativeApp() && (
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-lime-deep bg-lime-soft px-4 py-3">
           <span>
             Free trial: {trialDays} {trialDays === 1 ? "day" : "days"} left.
@@ -70,7 +71,7 @@ function Locked({ admin }: { admin: boolean }) {
         <Lock className="size-7" />
       </span>
       <h1 className="font-display mt-4 text-3xl font-medium tracking-tight">Subscription needed</h1>
-      {admin ? (
+      {admin && !isNativeApp() ? (
         <>
           <p className="mt-2 text-ink-soft">Your free trial or subscription has ended. Subscribe to keep using Origina.</p>
           <Button asChild size="lg" className="mt-6">
@@ -79,7 +80,7 @@ function Locked({ admin }: { admin: boolean }) {
         </>
       ) : (
         <p className="mt-2 text-ink-soft">
-          Your institution's subscription has ended. Ask your administrator to renew it on the Billing page.
+          Your institution's subscription isn't active. Please contact your administrator.
         </p>
       )}
     </div>

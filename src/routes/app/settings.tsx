@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { DeleteAccount } from "@/components/delete-account";
 import { getProfile } from "@/lib/origina/actions";
 import { ROLE_META } from "@/lib/origina/types";
 
@@ -23,6 +24,7 @@ function Settings() {
         </dl>
       )}
       <p className="text-sm text-muted">Your administrator can change your role.</p>
+      <DeleteAccount />
     </div>
   );
 }

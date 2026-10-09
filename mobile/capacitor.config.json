@@ -2,8 +2,9 @@
   "appId": "za.co.innovonet.origina",
   "appName": "Origina",
   "webDir": "www",
+  "appendUserAgent": "OriginaApp",
   "server": {
-    "url": "https://origina-three.vercel.app/app",
+    "url": "https://origina.co.za/app",
     "cleartext": false,
     "androidScheme": "https",
     "errorPath": "offline.html"
