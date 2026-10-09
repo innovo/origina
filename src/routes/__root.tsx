@@ -22,7 +22,7 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Origina: plagiarism, similarity and AI-content detection for colleges, universities and schools. Moodle-ready, POPIA-aware, decision support for academic staff.",
+          "Origina: plagiarism, AI-writing and hidden-text checks for colleges, universities and schools. POPIA-aware decision support for academic staff.",
       },
       { name: "theme-color", content: "#BED62F" },
       { property: "og:title", content: "Origina" },

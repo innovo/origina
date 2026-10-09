@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({ component: Home });
 const TRUST = [
   { icon: ShieldCheck, label: "POPIA-aware" },
   { icon: Headset, label: "South African support" },
-  { icon: Plug, label: "Works with Moodle" },
+  { icon: Plug, label: "REST API for your LMS" },
   { icon: Building2, label: "Private workspace per institution" },
 ];
 
@@ -48,7 +48,7 @@ const FEATURES = [
   { icon: Fingerprint, title: "Hidden characters and lookalike letters" },
   { icon: Type, title: "AI-written text indicator" },
   { icon: Languages, title: "Translated text and fake citations" },
-  { icon: Plug, title: "Moodle and REST API" },
+  { icon: Plug, title: "REST API for LMS integration" },
   { icon: Shield, title: "Full audit trail" },
   { icon: Building2, title: "Separate workspace per institution" },
   { icon: Lock, title: "POPIA-aware and private" },
@@ -57,7 +57,7 @@ const FEATURES = [
 const WHY = [
   { icon: Headset, title: "Local support", text: "A South African team and rand pricing." },
   { icon: Lock, title: "Your data stays yours", text: "Each institution works in its own private workspace." },
-  { icon: Plug, title: "Fits how you work", text: "Connect Moodle or upload Word, PDF and PowerPoint." },
+  { icon: Plug, title: "Fits how you work", text: "Upload Word, PDF and PowerPoint, or connect through our API." },
   { icon: Scale, title: "Staff decide", text: "Indicators, not verdicts. Every decision is recorded." },
 ];
 
@@ -105,7 +105,7 @@ const PLANS: Plan[] = [
     intro: "Everything in Pro, plus:",
     features: [
       "All campuses and departments",
-      "Moodle and REST API",
+      "REST API for your LMS",
       "Admin roles and onboarding",
       "Training for your staff",
       "Priority local support",
@@ -116,8 +116,8 @@ const PLANS: Plan[] = [
 
 const FAQ = [
   {
-    q: "Does Origina work with Moodle?",
-    a: "Yes. Your administrator creates a key on the Moodle and API page and connects it.",
+    q: "Can Origina connect to our LMS?",
+    a: "Yes, through our REST API. Your administrator creates a key on the API page.",
   },
   {
     q: "Is student data safe?",
@@ -413,7 +413,7 @@ function Demo() {
         <div>
           <SectionHeading title="Book a demo" text="See Origina on your own documents." />
           <ul className="mt-6 space-y-3">
-            {["A short online walkthrough", "Pricing for your institution", "Help setting up Moodle"].map(
+            {["A short online walkthrough", "Pricing for your institution", "Help connecting your systems"].map(
               (t) => (
                 <li key={t} className="flex gap-2.5 text-ink-soft">
                   <Check className="mt-0.5 size-5 shrink-0 text-lime-ink" />

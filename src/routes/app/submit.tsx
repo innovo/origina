@@ -4,7 +4,6 @@ import { FileUp, Loader2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Textarea } from "@/components/ui/input";
-import { SAMPLE_TEXTS } from "@/lib/origina/corpus";
 import { analyseSubmission, listAssignments } from "@/lib/origina/actions";
 import { extractTextFromFile } from "@/lib/origina/extract";
 
@@ -12,10 +11,10 @@ export const Route = createFileRoute("/app/submit")({ component: Submit });
 
 const STAGES = [
   "Extracting text",
-  "Obfuscation agent",
-  "Similarity agent",
-  "Authorship agent",
-  "Citation agent",
+  "Checking for hidden characters",
+  "Comparing with sources",
+  "Checking for AI writing",
+  "Checking citations",
   "Writing the report",
 ];
 
@@ -116,24 +115,8 @@ function Submit() {
             onChange={(e) => void onFiles(e.target.files)}
           />
         </label>
-        <div className="flex flex-wrap gap-2">
-          {SAMPLE_TEXTS.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              className="h-9 rounded-full border border-line bg-surface px-3 text-xs"
-              onClick={() => {
-                setText(s.text);
-                setTitle(s.title);
-                setFilename(`${s.id}.txt`);
-              }}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
         <div>
-          <Label htmlFor="body">Extracted text</Label>
+          <Label htmlFor="body">Text (paste here, or upload a file above)</Label>
           <Textarea
             id="body"
             value={text}

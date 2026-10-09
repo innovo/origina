@@ -4,7 +4,7 @@ import { authenticateApiRequest, json, reportUrl } from "@/lib/origina/api-auth"
 
 /**
  * POST /api/v1/check
- * Authorization: Bearer <API key from the Moodle & API page>
+ * Authorization: Bearer <API key from the API page>
  * Body (JSON): { text, title?, filename?, author?, assignmentId? }
  */
 export const Route = createFileRoute("/api/v1/check")({

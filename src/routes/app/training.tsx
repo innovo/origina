@@ -24,7 +24,7 @@ const MODULES = [
     steps: [
       "Share the join code from Organisation.",
       "Promote staff on People.",
-      "Add sources on Source library and API keys on Moodle & API.",
+      "Add sources on Source library and API keys on the API page.",
     ],
   },
 ];

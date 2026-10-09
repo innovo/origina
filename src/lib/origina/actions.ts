@@ -1170,7 +1170,7 @@ export const createApiClient = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .validator((input: { name: string }) => {
     const name = input.name.trim();
-    if (name.length < 3) throw new Error("Name the Moodle / API client.");
+    if (name.length < 3) throw new Error("Give the API key a name.");
     return { name };
   })
   .handler(async ({ context, data }) => {
@@ -1543,5 +1543,43 @@ export const setOrgBilling = createServerFn({ method: "POST" })
       where id = ${data.orgId}`;
     await writeAudit(context.userId, data.orgId, "billing.manual", "organization", data.orgId,
       `${data.plan}/${data.status}`);
+    return { ok: true as const };
+  });
+
+/* ───────────────────────── Account deletion (Google Play requirement) ───────────────────────── */
+
+/**
+ * Permanently delete the signed-in user's account. Their login, sessions and
+ * profile are removed. Work they submitted stays with their institution for its
+ * records, with their name replaced by "Deleted user".
+ */
+export const deleteMyAccount = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
+  .validator((input: { confirm: string }) => ({ confirm: String(input.confirm ?? "").trim() }))
+  .handler(async ({ context, data }) => {
+    if (data.confirm !== "DELETE") throw new Error('Type DELETE to confirm.');
+    const sql = await getSql();
+    const profile = await loadProfile(context.userId);
+
+    if (profile?.orgId && profile.role === "admin" && !profile.isPlatformAdmin) {
+      const [{ admins }] = await sql<{ admins: number }>`select count(*)::int as admins from profiles
+        where org_id = ${profile.orgId} and role = 'admin' and user_id <> ${context.userId}`;
+      const [{ others }] = await sql<{ others: number }>`select count(*)::int as others from profiles
+        where org_id = ${profile.orgId} and user_id <> ${context.userId}`;
+      if (admins === 0 && others > 0) {
+        throw new Error("You're the only administrator. Make someone else an administrator on the People page first.");
+      }
+      if (admins === 0) {
+        const { row, state } = await loadBilling(profile.orgId);
+        if (row.payfast_token && state.plan === "pro" && state.status === "active") {
+          throw new Error("Cancel your subscription on the Billing page before deleting your account.");
+        }
+      }
+    }
+
+    await sql`update submissions set author_name = 'Deleted user' where user_id = ${context.userId}`;
+    await writeAudit(context.userId, profile?.orgId ?? null, "account.delete", "user", context.userId);
+    await sql`delete from profiles where user_id = ${context.userId}`;
+    await sql`delete from "user" where id = ${context.userId}`;
     return { ok: true as const };
   });

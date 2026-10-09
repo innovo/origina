@@ -11,28 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteRouteImport } from './routes/app/route'
-import { Route as HomoglyphsRouteImport } from './routes/homoglyphs'
-import { Route as IdnRouteImport } from './routes/idn'
-import { Route as IdnaRouteImport } from './routes/idna'
-import { Route as LibrariesRouteImport } from './routes/libraries'
+import { Route as DeleteAccountRouteImport } from './routes/delete-account'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as SampleReportRouteImport } from './routes/sample-report'
 import { Route as TermsRouteImport } from './routes/terms'
-import { Route as ZeroWidthRouteImport } from './routes/zero-width'
 import { Route as AppIndexRouteImport } from './routes/app/index'
-import { Route as AppAgentsRouteImport } from './routes/app/agents'
 import { Route as AppAnalyticsRouteImport } from './routes/app/analytics'
+import { Route as AppApiKeysRouteImport } from './routes/app/api-keys'
 import { Route as AppAuditRouteImport } from './routes/app/audit'
 import { Route as AppBillingRouteImport } from './routes/app/billing'
 import { Route as AppCorpusRouteImport } from './routes/app/corpus'
 import { Route as AppCoursesRouteImport } from './routes/app/courses'
-import { Route as AppHomoglyphsRouteImport } from './routes/app/homoglyphs'
-import { Route as AppIdnRouteImport } from './routes/app/idn'
-import { Route as AppIdnaRouteImport } from './routes/app/idna'
-import { Route as AppLibrariesRouteImport } from './routes/app/libraries'
-import { Route as AppMoodleRouteImport } from './routes/app/moodle'
 import { Route as AppOnboardingRouteImport } from './routes/app/onboarding'
 import { Route as AppOrganisationRouteImport } from './routes/app/organisation'
 import { Route as AppPeopleRouteImport } from './routes/app/people'
@@ -41,7 +31,6 @@ import { Route as AppSettingsRouteImport } from './routes/app/settings'
 import { Route as AppSubmissionsRouteImport } from './routes/app/submissions'
 import { Route as AppSubmitRouteImport } from './routes/app/submit'
 import { Route as AppTrainingRouteImport } from './routes/app/training'
-import { Route as AppZeroWidthRouteImport } from './routes/app/zero-width'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ApiPayfastNotifyRouteImport } from './routes/api/payfast/notify'
 import { Route as ApiV1CheckRouteImport } from './routes/api/v1/check'
@@ -58,24 +47,9 @@ const AppRouteRoute = AppRouteRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HomoglyphsRoute = HomoglyphsRouteImport.update({
-  id: '/homoglyphs',
-  path: '/homoglyphs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IdnRoute = IdnRouteImport.update({
-  id: '/idn',
-  path: '/idn',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IdnaRoute = IdnaRouteImport.update({
-  id: '/idna',
-  path: '/idna',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LibrariesRoute = LibrariesRouteImport.update({
-  id: '/libraries',
-  path: '/libraries',
+const DeleteAccountRoute = DeleteAccountRouteImport.update({
+  id: '/delete-account',
+  path: '/delete-account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -93,19 +67,9 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SampleReportRoute = SampleReportRouteImport.update({
-  id: '/sample-report',
-  path: '/sample-report',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ZeroWidthRoute = ZeroWidthRouteImport.update({
-  id: '/zero-width',
-  path: '/zero-width',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -113,14 +77,14 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppAgentsRoute = AppAgentsRouteImport.update({
-  id: '/agents',
-  path: '/agents',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppApiKeysRoute = AppApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppAuditRoute = AppAuditRouteImport.update({
@@ -141,31 +105,6 @@ const AppCorpusRoute = AppCorpusRouteImport.update({
 const AppCoursesRoute = AppCoursesRouteImport.update({
   id: '/courses',
   path: '/courses',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppHomoglyphsRoute = AppHomoglyphsRouteImport.update({
-  id: '/homoglyphs',
-  path: '/homoglyphs',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppIdnRoute = AppIdnRouteImport.update({
-  id: '/idn',
-  path: '/idn',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppIdnaRoute = AppIdnaRouteImport.update({
-  id: '/idna',
-  path: '/idna',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppLibrariesRoute = AppLibrariesRouteImport.update({
-  id: '/libraries',
-  path: '/libraries',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppMoodleRoute = AppMoodleRouteImport.update({
-  id: '/moodle',
-  path: '/moodle',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppOnboardingRoute = AppOnboardingRouteImport.update({
@@ -208,11 +147,6 @@ const AppTrainingRoute = AppTrainingRouteImport.update({
   path: '/training',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppZeroWidthRoute = AppZeroWidthRouteImport.update({
-  id: '/zero-width',
-  path: '/zero-width',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -242,27 +176,17 @@ const ApiV1ReportsReportIdRoute = ApiV1ReportsReportIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
-  '/homoglyphs': typeof HomoglyphsRoute
-  '/idn': typeof IdnRoute
-  '/idna': typeof IdnaRoute
-  '/libraries': typeof LibrariesRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/sample-report': typeof SampleReportRoute
   '/terms': typeof TermsRoute
-  '/zero-width': typeof ZeroWidthRoute
-  '/app/agents': typeof AppAgentsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/api-keys': typeof AppApiKeysRoute
   '/app/audit': typeof AppAuditRoute
   '/app/billing': typeof AppBillingRoute
   '/app/corpus': typeof AppCorpusRoute
   '/app/courses': typeof AppCoursesRoute
-  '/app/homoglyphs': typeof AppHomoglyphsRoute
-  '/app/idn': typeof AppIdnRoute
-  '/app/idna': typeof AppIdnaRoute
-  '/app/libraries': typeof AppLibrariesRoute
-  '/app/moodle': typeof AppMoodleRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/organisation': typeof AppOrganisationRoute
   '/app/people': typeof AppPeopleRoute
@@ -271,7 +195,6 @@ export interface FileRoutesByFullPath {
   '/app/submissions': typeof AppSubmissionsRoute
   '/app/submit': typeof AppSubmitRoute
   '/app/training': typeof AppTrainingRoute
-  '/app/zero-width': typeof AppZeroWidthRoute
   '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/payfast/notify': typeof ApiPayfastNotifyRoute
@@ -281,27 +204,17 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/homoglyphs': typeof HomoglyphsRoute
-  '/idn': typeof IdnRoute
-  '/idna': typeof IdnaRoute
-  '/libraries': typeof LibrariesRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/sample-report': typeof SampleReportRoute
   '/terms': typeof TermsRoute
-  '/zero-width': typeof ZeroWidthRoute
-  '/app/agents': typeof AppAgentsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/api-keys': typeof AppApiKeysRoute
   '/app/audit': typeof AppAuditRoute
   '/app/billing': typeof AppBillingRoute
   '/app/corpus': typeof AppCorpusRoute
   '/app/courses': typeof AppCoursesRoute
-  '/app/homoglyphs': typeof AppHomoglyphsRoute
-  '/app/idn': typeof AppIdnRoute
-  '/app/idna': typeof AppIdnaRoute
-  '/app/libraries': typeof AppLibrariesRoute
-  '/app/moodle': typeof AppMoodleRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/organisation': typeof AppOrganisationRoute
   '/app/people': typeof AppPeopleRoute
@@ -310,7 +223,6 @@ export interface FileRoutesByTo {
   '/app/submissions': typeof AppSubmissionsRoute
   '/app/submit': typeof AppSubmitRoute
   '/app/training': typeof AppTrainingRoute
-  '/app/zero-width': typeof AppZeroWidthRoute
   '/app': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/payfast/notify': typeof ApiPayfastNotifyRoute
@@ -322,27 +234,17 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
-  '/homoglyphs': typeof HomoglyphsRoute
-  '/idn': typeof IdnRoute
-  '/idna': typeof IdnaRoute
-  '/libraries': typeof LibrariesRoute
+  '/delete-account': typeof DeleteAccountRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/sample-report': typeof SampleReportRoute
   '/terms': typeof TermsRoute
-  '/zero-width': typeof ZeroWidthRoute
-  '/app/agents': typeof AppAgentsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/api-keys': typeof AppApiKeysRoute
   '/app/audit': typeof AppAuditRoute
   '/app/billing': typeof AppBillingRoute
   '/app/corpus': typeof AppCorpusRoute
   '/app/courses': typeof AppCoursesRoute
-  '/app/homoglyphs': typeof AppHomoglyphsRoute
-  '/app/idn': typeof AppIdnRoute
-  '/app/idna': typeof AppIdnaRoute
-  '/app/libraries': typeof AppLibrariesRoute
-  '/app/moodle': typeof AppMoodleRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/organisation': typeof AppOrganisationRoute
   '/app/people': typeof AppPeopleRoute
@@ -351,7 +253,6 @@ export interface FileRoutesById {
   '/app/submissions': typeof AppSubmissionsRoute
   '/app/submit': typeof AppSubmitRoute
   '/app/training': typeof AppTrainingRoute
-  '/app/zero-width': typeof AppZeroWidthRoute
   '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/payfast/notify': typeof ApiPayfastNotifyRoute
@@ -364,27 +265,17 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
-    | '/homoglyphs'
-    | '/idn'
-    | '/idna'
-    | '/libraries'
+    | '/delete-account'
     | '/login'
     | '/privacy'
     | '/reset-password'
-    | '/sample-report'
     | '/terms'
-    | '/zero-width'
-    | '/app/agents'
     | '/app/analytics'
+    | '/app/api-keys'
     | '/app/audit'
     | '/app/billing'
     | '/app/corpus'
     | '/app/courses'
-    | '/app/homoglyphs'
-    | '/app/idn'
-    | '/app/idna'
-    | '/app/libraries'
-    | '/app/moodle'
     | '/app/onboarding'
     | '/app/organisation'
     | '/app/people'
@@ -393,7 +284,6 @@ export interface FileRouteTypes {
     | '/app/submissions'
     | '/app/submit'
     | '/app/training'
-    | '/app/zero-width'
     | '/app/'
     | '/api/auth/$'
     | '/api/payfast/notify'
@@ -403,27 +293,17 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/homoglyphs'
-    | '/idn'
-    | '/idna'
-    | '/libraries'
+    | '/delete-account'
     | '/login'
     | '/privacy'
     | '/reset-password'
-    | '/sample-report'
     | '/terms'
-    | '/zero-width'
-    | '/app/agents'
     | '/app/analytics'
+    | '/app/api-keys'
     | '/app/audit'
     | '/app/billing'
     | '/app/corpus'
     | '/app/courses'
-    | '/app/homoglyphs'
-    | '/app/idn'
-    | '/app/idna'
-    | '/app/libraries'
-    | '/app/moodle'
     | '/app/onboarding'
     | '/app/organisation'
     | '/app/people'
@@ -432,7 +312,6 @@ export interface FileRouteTypes {
     | '/app/submissions'
     | '/app/submit'
     | '/app/training'
-    | '/app/zero-width'
     | '/app'
     | '/api/auth/$'
     | '/api/payfast/notify'
@@ -443,27 +322,17 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
-    | '/homoglyphs'
-    | '/idn'
-    | '/idna'
-    | '/libraries'
+    | '/delete-account'
     | '/login'
     | '/privacy'
     | '/reset-password'
-    | '/sample-report'
     | '/terms'
-    | '/zero-width'
-    | '/app/agents'
     | '/app/analytics'
+    | '/app/api-keys'
     | '/app/audit'
     | '/app/billing'
     | '/app/corpus'
     | '/app/courses'
-    | '/app/homoglyphs'
-    | '/app/idn'
-    | '/app/idna'
-    | '/app/libraries'
-    | '/app/moodle'
     | '/app/onboarding'
     | '/app/organisation'
     | '/app/people'
@@ -472,7 +341,6 @@ export interface FileRouteTypes {
     | '/app/submissions'
     | '/app/submit'
     | '/app/training'
-    | '/app/zero-width'
     | '/app/'
     | '/api/auth/$'
     | '/api/payfast/notify'
@@ -484,16 +352,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
-  HomoglyphsRoute: typeof HomoglyphsRoute
-  IdnRoute: typeof IdnRoute
-  IdnaRoute: typeof IdnaRoute
-  LibrariesRoute: typeof LibrariesRoute
+  DeleteAccountRoute: typeof DeleteAccountRoute
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  SampleReportRoute: typeof SampleReportRoute
   TermsRoute: typeof TermsRoute
-  ZeroWidthRoute: typeof ZeroWidthRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiPayfastNotifyRoute: typeof ApiPayfastNotifyRoute
   ApiV1CheckRoute: typeof ApiV1CheckRoute
@@ -516,32 +379,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/homoglyphs': {
-      id: '/homoglyphs'
-      path: '/homoglyphs'
-      fullPath: '/homoglyphs'
-      preLoaderRoute: typeof HomoglyphsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/idn': {
-      id: '/idn'
-      path: '/idn'
-      fullPath: '/idn'
-      preLoaderRoute: typeof IdnRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/idna': {
-      id: '/idna'
-      path: '/idna'
-      fullPath: '/idna'
-      preLoaderRoute: typeof IdnaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/libraries': {
-      id: '/libraries'
-      path: '/libraries'
-      fullPath: '/libraries'
-      preLoaderRoute: typeof LibrariesRouteImport
+    '/delete-account': {
+      id: '/delete-account'
+      path: '/delete-account'
+      fullPath: '/delete-account'
+      preLoaderRoute: typeof DeleteAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -565,25 +407,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sample-report': {
-      id: '/sample-report'
-      path: '/sample-report'
-      fullPath: '/sample-report'
-      preLoaderRoute: typeof SampleReportRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/terms': {
       id: '/terms'
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/zero-width': {
-      id: '/zero-width'
-      path: '/zero-width'
-      fullPath: '/zero-width'
-      preLoaderRoute: typeof ZeroWidthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -593,18 +421,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/app/agents': {
-      id: '/app/agents'
-      path: '/agents'
-      fullPath: '/app/agents'
-      preLoaderRoute: typeof AppAgentsRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/app/analytics': {
       id: '/app/analytics'
       path: '/analytics'
       fullPath: '/app/analytics'
       preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/api-keys': {
+      id: '/app/api-keys'
+      path: '/api-keys'
+      fullPath: '/app/api-keys'
+      preLoaderRoute: typeof AppApiKeysRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/audit': {
@@ -633,41 +461,6 @@ declare module '@tanstack/react-router' {
       path: '/courses'
       fullPath: '/app/courses'
       preLoaderRoute: typeof AppCoursesRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/homoglyphs': {
-      id: '/app/homoglyphs'
-      path: '/homoglyphs'
-      fullPath: '/app/homoglyphs'
-      preLoaderRoute: typeof AppHomoglyphsRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/idn': {
-      id: '/app/idn'
-      path: '/idn'
-      fullPath: '/app/idn'
-      preLoaderRoute: typeof AppIdnRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/idna': {
-      id: '/app/idna'
-      path: '/idna'
-      fullPath: '/app/idna'
-      preLoaderRoute: typeof AppIdnaRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/libraries': {
-      id: '/app/libraries'
-      path: '/libraries'
-      fullPath: '/app/libraries'
-      preLoaderRoute: typeof AppLibrariesRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/moodle': {
-      id: '/app/moodle'
-      path: '/moodle'
-      fullPath: '/app/moodle'
-      preLoaderRoute: typeof AppMoodleRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/onboarding': {
@@ -726,13 +519,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTrainingRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/app/zero-width': {
-      id: '/app/zero-width'
-      path: '/zero-width'
-      fullPath: '/app/zero-width'
-      preLoaderRoute: typeof AppZeroWidthRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -772,17 +558,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteRouteChildren {
-  AppAgentsRoute: typeof AppAgentsRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppApiKeysRoute: typeof AppApiKeysRoute
   AppAuditRoute: typeof AppAuditRoute
   AppBillingRoute: typeof AppBillingRoute
   AppCorpusRoute: typeof AppCorpusRoute
   AppCoursesRoute: typeof AppCoursesRoute
-  AppHomoglyphsRoute: typeof AppHomoglyphsRoute
-  AppIdnRoute: typeof AppIdnRoute
-  AppIdnaRoute: typeof AppIdnaRoute
-  AppLibrariesRoute: typeof AppLibrariesRoute
-  AppMoodleRoute: typeof AppMoodleRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppOrganisationRoute: typeof AppOrganisationRoute
   AppPeopleRoute: typeof AppPeopleRoute
@@ -791,23 +572,17 @@ interface AppRouteRouteChildren {
   AppSubmissionsRoute: typeof AppSubmissionsRoute
   AppSubmitRoute: typeof AppSubmitRoute
   AppTrainingRoute: typeof AppTrainingRoute
-  AppZeroWidthRoute: typeof AppZeroWidthRoute
   AppIndexRoute: typeof AppIndexRoute
   AppReportsReportIdRoute: typeof AppReportsReportIdRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppAgentsRoute: AppAgentsRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
+  AppApiKeysRoute: AppApiKeysRoute,
   AppAuditRoute: AppAuditRoute,
   AppBillingRoute: AppBillingRoute,
   AppCorpusRoute: AppCorpusRoute,
   AppCoursesRoute: AppCoursesRoute,
-  AppHomoglyphsRoute: AppHomoglyphsRoute,
-  AppIdnRoute: AppIdnRoute,
-  AppIdnaRoute: AppIdnaRoute,
-  AppLibrariesRoute: AppLibrariesRoute,
-  AppMoodleRoute: AppMoodleRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppOrganisationRoute: AppOrganisationRoute,
   AppPeopleRoute: AppPeopleRoute,
@@ -816,7 +591,6 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSubmissionsRoute: AppSubmissionsRoute,
   AppSubmitRoute: AppSubmitRoute,
   AppTrainingRoute: AppTrainingRoute,
-  AppZeroWidthRoute: AppZeroWidthRoute,
   AppIndexRoute: AppIndexRoute,
   AppReportsReportIdRoute: AppReportsReportIdRoute,
 }
@@ -828,16 +602,11 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
-  HomoglyphsRoute: HomoglyphsRoute,
-  IdnRoute: IdnRoute,
-  IdnaRoute: IdnaRoute,
-  LibrariesRoute: LibrariesRoute,
+  DeleteAccountRoute: DeleteAccountRoute,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  SampleReportRoute: SampleReportRoute,
   TermsRoute: TermsRoute,
-  ZeroWidthRoute: ZeroWidthRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiPayfastNotifyRoute: ApiPayfastNotifyRoute,
   ApiV1CheckRoute: ApiV1CheckRoute,

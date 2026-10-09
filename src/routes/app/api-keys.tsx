@@ -12,13 +12,13 @@ import {
 } from "@/lib/origina/actions";
 import { formatDate } from "@/lib/utils";
 
-export const Route = createFileRoute("/app/moodle")({ component: ApiPage });
+export const Route = createFileRoute("/app/api-keys")({ component: ApiPage });
 
 function ApiPage() {
   const qc = useQueryClient();
   const clients = useQuery({ queryKey: ["api-clients"], queryFn: () => listApiClients() });
   const profile = useQuery({ queryKey: ["profile"], queryFn: () => getProfile() });
-  const defaultName = `${profile.data?.orgShortName ?? "Institution"} Moodle`;
+  const defaultName = `${profile.data?.orgShortName ?? "Institution"} integration`;
   const [customName, setName] = useState<string | null>(null);
   const name = customName ?? defaultName;
   const [issued, setIssued] = useState<string | null>(null);
@@ -47,9 +47,9 @@ function ApiPage() {
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="font-display text-3xl font-medium tracking-tight">Moodle & API</h1>
+        <h1 className="font-display text-3xl font-medium tracking-tight">API</h1>
         <p className="mt-2 text-sm text-ink-soft">
-          Send work from Moodle or any system and get scores back.
+          Connect your LMS or other systems. Send work in and get scores back.
         </p>
       </header>
 

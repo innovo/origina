@@ -192,6 +192,6 @@ export const ROLE_META: Record<Role, { label: string; hint: string }> = {
   },
   admin: {
     label: "Administrator",
-    hint: "Configure your organisation, campuses, people, Moodle and analytics.",
+    hint: "Configure your organisation, campuses, people, billing and analytics.",
   },
 };

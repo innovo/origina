@@ -50,14 +50,8 @@ const NAV: { heading: string; items: Item[] }[] = [
   {
     heading: "Integrity",
     items: [
-      { to: "/app/agents", label: "Detection agents", icon: ScanSearch },
-      { to: "/app/zero-width", label: "Zero-width lab", icon: EyeOff },
-      { to: "/app/homoglyphs", label: "Homoglyph lab", icon: ALargeSmall },
-      { to: "/app/idn", label: "IDN lab", icon: Globe },
-      { to: "/app/idna", label: "IDNA 2008", icon: Scale },
-      { to: "/app/libraries", label: "Libraries", icon: Library },
       { to: "/app/corpus", label: "Source library", icon: Database },
-      { to: "/app/moodle", label: "Moodle & API", icon: Plug },
+      { to: "/app/api-keys", label: "API", icon: Plug, roles: ["teacher", "admin"] },
     ],
   },
   {
@@ -234,7 +228,7 @@ export function PublicHeader() {
           </Link>
           <a
             href="/#demo"
-            className="inline-flex h-11 items-center rounded-xl bg-lime px-4 text-sm font-semibold text-navy hover:bg-lime-deep"
+            className="inline-flex h-11 items-center whitespace-nowrap rounded-xl bg-lime px-4 text-sm font-semibold text-navy hover:bg-lime-deep"
           >
             Book a demo
           </a>
@@ -280,7 +274,13 @@ export function PublicFooter() {
         </div>
         <div className="flex flex-wrap gap-4">
           <Link to="/privacy" className="hover:text-lime">
-            Privacy & POPIA
+            Privacy
+          </Link>
+          <Link to="/terms" className="hover:text-lime">
+            Terms
+          </Link>
+          <Link to="/delete-account" className="hover:text-lime">
+            Delete account
           </Link>
           <a href="/#demo" className="hover:text-lime">
             Book a demo

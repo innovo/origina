@@ -139,17 +139,6 @@ function CorpusPage() {
         </form>
       )}
 
-      <section>
-        <h2 className="font-display text-xl font-medium">Shared sample library</h2>
-        <ul className="mt-3 divide-y divide-line rounded-[22px] border border-line bg-surface">
-          {shared.map((c) => (
-            <li key={c.id} className="px-4 py-3">
-              <p className="text-sm font-medium">{c.title}</p>
-              {c.source_ref && <p className="text-xs text-muted">{c.source_ref}</p>}
-            </li>
-          ))}
-        </ul>
-      </section>
     </div>
   );
 }
